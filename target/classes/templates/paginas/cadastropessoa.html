@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<title>Página de Cadastro</title>
+</head>
+<body>
+
+<h2>Sistema de Gerenciamento</h2>
+
+1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a>.<p/>
+
+2. Para voltar ao cadastro de salas, <a href="/paginaSala">CLIQUE AQUI</a>.<p/>
+
+3. Para ir à página de consultas, <a id="lnkConsultas" href="/listaDeCadastrados">CLIQUE AQUI</a>.<p/>
+
+<h2>Cadastro de pessoas</h2>
+
+<div class="row">
+
+	<form action="/cadastrarpessoa" method="post" class="col s12">
+
+		<div class="row">
+			<div class="input-field col s5">
+				<label class="active">Nome</label>
+				<input name="nomePessoa" autofocus required maxlength="25" />
+			</div>
+			
+			<div class="input-field col s5">
+				<label class="active">Sobrenome</label>
+				<input name="sobrenomePessoa" required maxlength="25" />
+			</div>
+			
+			<div class="input-field col s2">
+				<button id="btnCadastrar" class="waves-effect waves-light btn">Cadastrar</button>
+			</div>	
+		</div>
+	</form>
+</div>
+<p/>
+
+<div th:each="m : ${msg}" align="center">
+		<span id="pessoaCadastrada" th:text="${m}" style="color: #228B22; font-weight: bold;"></span>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<title>Página Inicial</title>
+</head>
+<body>
+
+<h2>Sistema de Gerenciamento</h2>
+
+	<div th:each="m : ${msg}">
+		<span th:text="${m}" style="color: #FF0000; font-weight: bold;"></span>
+	</div>
+<p/>
+
+1. Para cadastrar salas, <a href="/paginaSala">CLIQUE AQUI</a>.
+<p/>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<title>Lista de Cadastrados</title>
+</head>
+<body>
+
+	<h2>Sistema de Gerenciamento</h2>
+
+1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a><p/>
+
+2. Para cadastrar salas, <a href="/cadastrarSala">CLIQUE AQUI</a><p/>
+
+3. Para voltar à página de cadastro de pessoal, <a href="/cadastropessoa">CLIQUE AQUI</a><p/>
+
+	
+<a href="/distribuir" class="waves-effect waves-light btn">DISTRIBUIR PESSOAL POR SALAS</a>
+	
+	<div th:each="m : ${msg}">
+		<span th:text="${m}" style="color: #556B2F; font-weight: bold;"></span>
+	</div><p/>
+
+<h2>Pesquisar por nome</h2>
+
+<div class="row">
+
+	<form action="/pesquisarpessoa" method="post" class="col s12">
+
+		<div class="row">
+			<div class="input-field col s4">
+				<label class="active">Insira o nome</label>
+				<input name="primeironome" autofocus />
+			</div>
+			
+			<div class="input-field col s6">
+				<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>
+			</div>	
+		</div>
+	</form>
+</div>
+	
+<h2>Listagem de Pessoal</h2>
+
+<table>
+	<thead>
+		<tr bgcolor="#26A69A">
+			<th>Id</th>
+			<th>Nome</th>
+			<th>Sobrenome</th>
+			<th>Espaço Café(1ª etapa)</th>
+			<th>Sala(1ª etapa)</th>
+			<th>Espaço Café(2ª etapa)</th>
+			<th>Sala(2ª etapa)</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr th:each = "pessoa : ${pessoas}">
+			<td th:text="${pessoa.id}"></td>
+			<td th:text="${pessoa.nomePessoa}"></td>
+			<td th:text="${pessoa.sobrenomePessoa}"></td>			
+			<td th:text="${pessoa.cafeEtapa1}"></td>
+			<td th:text="${pessoa.salaEtapa1}"></td>
+			<td th:text="${pessoa.cafeEtapa2}"></td>
+			<td th:text="${pessoa.salaEtapa2}"></td>
+		</tr>
+	</tbody>
+</table>
+
+</body>
+</html>
