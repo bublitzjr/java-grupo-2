@@ -1,7 +1,8 @@
 # Java-Grupo-2
 
 #### A ProWay vai realizar um treinamento para uma grande empresa de TI de Blumenau. O treinamento será realizado em 2 etapas e as pessoas serão divididas em salas com   lotação variável. Serão realizados também dois intervalos de café em 2 espaços distintos.
-### Você precisa criar o sistema que gerenciará este evento. O sistema precisa permitir:
+
+#### Você precisa criar o sistema que gerenciará este evento. O sistema precisa permitir:
 	- O cadastro de pessoas, com nome e sobrenome
 	- O cadastro das salas do evento, com nome e lotação
 	- O cadastro dos espaços de café pelo nome	
