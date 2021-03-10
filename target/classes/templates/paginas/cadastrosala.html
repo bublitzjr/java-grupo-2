@@ -4,82 +4,84 @@ xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <title>Cadastro para Salas</title>
 </head>
 <body>
 
-<h2>Sistema de Gerenciamento</h2>
+<div class="container-fluid">
+	<h2>Sistema de Gerenciamento</h2>
 
-1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a>.<p/>
+	1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a>.<p/>
 
-2. Para cadastrar pessoas, <a id="lnkCadastrarPessoa" href="/cadastropessoa">CLIQUE AQUI</a>.<p/>
+	2. Para cadastrar pessoas, <a id="lnkCadastrarPessoa" href="/cadastropessoa">CLIQUE AQUI</a>.<p/>
 
-	<div th:each="m : ${msg}">
-		<span id="salaCadastrada" th:text="${m}" style="color: #228B22; 
-				font-weight: bold; text-transform: uppercase;"></span>
+	<div class="row" style="text-align: center;">
+		<div th:each = "m : ${msg}">
+			<span id="salaCadastrada" th:text="${m}" style="color: #228B22; 
+					font-weight: bold; text-transform: uppercase;"></span>
+		</div>
+
+		<div th:each = "e : ${erro}">
+			<span th:text="${e}" style="color: #b31f1f; 
+			font-weight: bold; text-transform: uppercase;"></span>
+		</div>	
 	</div>
-<p/>
-
-<h2>Cadastro de Salas</h2>
-
-<div class="row">
-
-	<form action="/cadastrarSala" method="post" class="col s12">
-		<div class="row">
-			<div class="input-field col s5">
-				<label class="active">Nome da Sala</label>
-				<input name="nomeSala" autofocus required maxlength="25" />
-			</div>
-			
-			<div class="input-field col s2">
-				<button id="btnCadastrar" class="waves-effect waves-light btn">Cadastrar</button>
-			</div>	
-		</div>
-	</form>
 </div>
-<p/>
 
-<h2>Pesquisa por Salas</h2>
-<div class="row">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-6">
+			<h3>Cadastro de Salas</h3>
 
-	<form action="/pesquisarSala" method="post" class="col s12">
-
-		<div class="row">
-			<div class="input-field col s4">
-				<label class="active">Insira o nome da sala</label>
-				<input name="pesqNomeSalas" />
-			</div>
-			
-			<div class="input-field col s6">
-				<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>
-			</div>	
+			<form action="/cadastrarSala" method="post">				
+					<div class="input-field">						
+						<input name="nomeSala" autofocus required maxlength="25" placeholder="Digite nome da Sala..." />
+					</div>
+					
+					<div class="input-field">
+						<button id="btnCadastrar" class="waves-effect waves-light btn">Cadastrar</button>
+					</div>			
+			</form>
 		</div>
-	</form>
+
+		<div class="col-sm-6">
+			<h3>Pesquisa por Salas</h3>
+			<form action="/pesquisarSala" method="post">	
+					<div class="input-field">						
+						<input name="pesqNomeSalas" placeholder="Digite nome da Sala..."/>
+					</div>
+					
+					<div class="input-field">
+						<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>
+
+						<a href="/apagarTudo" class="waves-effect waves-light btn" 
+						style="background: #FF0000; font-weight: bold;" 
+						title="Exclui todas as salas e usuários do sistema" >Apagar todos</a>				
+					</div>					
+			</form>
+		<div>
+	</div>
 </div>
-<p/>
 
-<a href="/apagarTudo" class="waves-effect waves-light btn" 
-				style="background: #FF0000; font-weight: bold;" 
-				title="Exclui todas as salas e usuários do sistema" >APAGAR TUDO</a>
-<p/>
+<div class="container-fluid">	
+	<table>	
+		<h2 style="text-align: center;">Listagem de Salas</h2>
+		<thead>
+			<tr style="background-color:#26A69A; height: 50px; color: white;">
+				<th style="padding-left: 10px;">Número</th>
+				<th style="padding: 10px; ">Nome</th>
+			</tr>
+		</thead>
 
-<table>
-	<caption><b>Listagem de Salas</b></caption>
-	<thead>
-		<tr bgcolor="#26A69A">
-			<th>Número</th>
-			<th>Nome</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<tr th:each = "sala : ${salas}">
-			<td th:text="${sala.id}"></td>
-			<td th:text="${sala.nomeSala}"></td>
-		</tr>
-	</tbody>
-</table>
-
+		<tbody>
+			<tr th:each = "sala : ${salas}">
+				<td style="padding: 8px;" th:text="${sala.id}"></td>
+				<td style="padding: 8px;" th:text="${sala.nomeSala}"></td>
+			</tr>		
+		</tbody>
+	</table>
+</div>
 </body>
 </html>
