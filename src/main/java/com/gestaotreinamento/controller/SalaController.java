@@ -43,7 +43,12 @@ public class SalaController {
 		
 		List<Sala> salasEncontradas = salaRepository.findSalaPorNome(pesqNomeSalas);
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
-		modelAndView.addObject("salas", salasEncontradas);
+		
+		if(salasEncontradas.isEmpty()) {
+			modelAndView.addObject("erro", " Nenhuma sala encontrada");
+		} else {
+			modelAndView.addObject("salas", salasEncontradas);
+		}
 		
 		return modelAndView;
 	}
