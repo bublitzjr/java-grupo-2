@@ -15,7 +15,7 @@ xmlns:th="http://www.thymeleaf.org">
 
 	1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a>.<p/>
 
-	2. Para cadastrar pessoas, <a id="lnkCadastrarPessoa" href="/cadastropessoa">CLIQUE AQUI</a>.<p/>
+	2. Para cadastrar os nomes do espaço para café, <a id="lnkCadastrarCafe" href="/paginaespacocafe">CLIQUE AQUI</a>.<p/>
 
 	<div class="row" style="text-align: center;">
 		<div th:each = "m : ${msg}">
@@ -38,6 +38,10 @@ xmlns:th="http://www.thymeleaf.org">
 			<form action="/cadastrarSala" method="post">				
 					<div class="input-field">						
 						<input name="nomeSala" autofocus required maxlength="25" placeholder="Digite nome da Sala..." />
+					</div>
+					
+					<div class="input-field">						
+						<input type="number" name="lotacao" min="2" max="1000" required  placeholder="Digite a lotação da Sala..." />
 					</div>
 					
 					<div class="input-field">
@@ -72,6 +76,7 @@ xmlns:th="http://www.thymeleaf.org">
 			<tr style="background-color:#26A69A; height: 50px; color: white;">
 				<th style="padding-left: 10px;">Número</th>
 				<th style="padding: 10px; ">Nome</th>
+				<th style="padding: 10px; ">Lotação</th>
 			</tr>
 		</thead>
 
@@ -79,6 +84,7 @@ xmlns:th="http://www.thymeleaf.org">
 			<tr th:each = "sala : ${salas}">
 				<td style="padding: 8px;" th:text="${sala.id}"></td>
 				<td style="padding: 8px;" th:text="${sala.nomeSala}"></td>
+				<td style="padding: 8px;" th:text="${sala.lotacao}"></td>
 			</tr>		
 		</tbody>
 	</table>

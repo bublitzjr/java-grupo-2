@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gestaotreinamento.model.Pessoa;
+import com.gestaotreinamento.repository.EspacoCafeRepository;
 import com.gestaotreinamento.repository.PessoaRepository;
 import com.gestaotreinamento.repository.SalaRepository;
 
@@ -21,6 +22,9 @@ public class PessoaController {
 
 	@Autowired
 	private SalaRepository salaRepository;
+	
+	@Autowired
+	private EspacoCafeRepository espacoCafeRepository;
 
 	@GetMapping(value = "/cadastropessoa")
 	public ModelAndView inicioPessoa() {
@@ -43,14 +47,20 @@ public class PessoaController {
 	@PostMapping(value = "/cadastrarpessoa")
 	public ModelAndView cadastroPessoa(Pessoa pessoa) {
 
-		int totalPessoas = pessoaRepository.findTotalPessoasSala();
+		int totalPessoas = pessoaRepository.findTotalPessoas();
 
+		
+		/* Aqui vai ser preciso eu fazer uma busca no BD pelo menor valor de lotação
+		 * que tiver na sala pra atribuir no lugar desse 20 */
 		if (totalPessoas > 20) {
 			ModelAndView modelAndView = new ModelAndView("paginas/cadastropessoa");
 			modelAndView.addObject("msg", "Pessoa não cadastrada!!" 
 					+ " Limite de 20 pessoas por sala!");
 		}
-
+		
+		totalPessoas++;
+		pessoa.setId(totalPessoas);
+		
 		pessoaRepository.save(pessoa);
 
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastropessoa");
@@ -70,9 +80,9 @@ public class PessoaController {
 	public ModelAndView distribuirPessoas() {
 
 		ModelAndView modelAndView;
-		int totalPessoas = pessoaRepository.findTotalPessoasSala();
+		int totalPessoas = pessoaRepository.findTotalPessoas();
 		List<Pessoa> pessoasCadastradas = pessoaRepository.findAllOrderById();
-		List<Long> salasCadastradas = salaRepository.findAllId();
+		List<Integer> salasCadastradas = salaRepository.findAllId();
 
 		if (totalPessoas < salasCadastradas.size()) {
 			modelAndView = new ModelAndView("paginas/cadastropessoa");
@@ -80,7 +90,7 @@ public class PessoaController {
 					"msg", "Você precisa cadastrar ao menos 2 pessoas por sala no sistema!");
 		} else {
 			
-			pessoasCadastradas = distribuirPessoasPorSala();
+		//	pessoasCadastradas = distribuirPessoasPorSala();
 
 			for (int i = 0; i < pessoasCadastradas.size(); i++) {
 				pessoaRepository.save(pessoasCadastradas.get(i));
@@ -104,37 +114,57 @@ public class PessoaController {
 		return modelAndView;
 	}
 	
+	/* Essa aqui talvez seja uma função a ser adaptada. Didaticamente é interessante que
+	 * haja uma exclusão por cascata, da sala e das pessoas e depois a do local do café */
 	@GetMapping(value = "/apagarTudo")
 	public ModelAndView apagarTudo() {
 		pessoaRepository.deleteAll();
 		salaRepository.deleteAll();
+		espacoCafeRepository.deleteAll();
 		
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
-		modelAndView.addObject("msg", "Salas e Usuários foram removidos com sucesso!");
+		modelAndView.addObject("msg", "Salas, Espaços de Café e Usuários foram removidos"
+				+ " com sucesso do Banco de Dados!");
 		
 		return modelAndView;
 	}
 	
+	
+	/*	
 	private List<Pessoa> distribuirPessoasPorSala() {
 
 		List<Pessoa> pessoasCadastradas = pessoaRepository.findAllOrderById();
-		List<Long> salasCadastradas = salaRepository.findAllId();
+		List<Sala> salasCadastradas = (List<Sala>) salaRepository.findAll();
 
 		// Por aqui eu consigo tirar a média
 		int media = pessoasCadastradas.size() / 2;
-		int idSala = 1;
 		
-			for(int i = 1; i < pessoasCadastradas.size(); i++) {
-				pessoasCadastradas.get(i).setSalaEtapa1(0);
-				pessoasCadastradas.get(i).setSalaEtapa2(0);
+		for(int i = 0; i < pessoasCadastradas.size(); i++) {
+				
+			if(pessoasCadastradas.get(i).getId() % 2 == 1) {
+		//		pessoasCadastradas.get(i).setSala(sala);
+			} else {
+				pessoasCadastradas.get(i).setSala(pessoasCadastradas.get(i).getSala());
 			}
+		}
 		
-		for (int i = 0; i < pessoasCadastradas.size(); i++) {
+		
+		*/
 			
-			if (idSala > salasCadastradas.size()) {
-				idSala = 1;
-			}
+			
 
+			
+			
+			
+			
+			
+		//for (int i = 0; i < pessoasCadastradas.size(); i++) {
+			
+		//	if (idSala > salasCadastradas.size()) {
+		//		idSala = 1;
+		//	}
+
+			/*
 			// id de usuário ímpar = espaço de café ímpar (e vice-versa)
 			pessoasCadastradas.get(i).setSalaEtapa1(idSala);
 			idSala++;
@@ -147,14 +177,16 @@ public class PessoaController {
 			}
 
 			/* Caso o id da pessoa esteja abaixo da média total de pessoas por sala, ela irá
-				continuar nesta mesma sala */
-			if (pessoasCadastradas.get(i).getId() <= media) {
-				pessoasCadastradas.get(i).setSalaEtapa2(pessoasCadastradas.get(i).getSalaEtapa1());
-			}
+				continuar nesta mesma sala  */
+			//if (pessoasCadastradas.get(i).getId() <= media) {
+				//pessoasCadastradas.get(i).setSalaEtapa2(pessoasCadastradas.get(i).getSalaEtapa1());
+			//}
+			
 
 			/* Caso o id da pessoa esteja acima da média total de pessoas por sala, ela
 				avançará 1 sala */
-						
+			
+			/*
 			else {
 				if (pessoasCadastradas.get(i).getSalaEtapa1() == salasCadastradas.size()) {
 					int novoId = 1;
@@ -163,8 +195,11 @@ public class PessoaController {
 					pessoasCadastradas.get(i).setSalaEtapa2(pessoasCadastradas.get(i).getSalaEtapa1() + 1);
 				}
 			}
+			*/
 			
-		}
-		return pessoasCadastradas;
-	}
+	//	}
+//		return pessoasCadastradas;
+//	}
+	
+	
 }

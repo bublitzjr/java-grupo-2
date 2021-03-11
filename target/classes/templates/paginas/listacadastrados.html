@@ -51,10 +51,8 @@ xmlns:th="http://www.thymeleaf.org">
 			<th>Id</th>
 			<th>Nome</th>
 			<th>Sobrenome</th>
-			<th>Espaço Café(1ª etapa)</th>
-			<th>Sala(1ª etapa)</th>
-			<th>Espaço Café(2ª etapa)</th>
-			<th>Sala(2ª etapa)</th>
+			<th>Espaço Café</th>
+			<th>Sala</th>
 		</tr>
 	</thead>
 
@@ -62,11 +60,7 @@ xmlns:th="http://www.thymeleaf.org">
 		<tr th:each = "pessoa : ${pessoas}">
 			<td th:text="${pessoa.id}"></td>
 			<td th:text="${pessoa.nomePessoa}"></td>
-			<td th:text="${pessoa.sobrenomePessoa}"></td>			
-			<td th:text="${pessoa.cafeEtapa1}"></td>
-			<td th:text="${pessoa.salaEtapa1}"></td>
-			<td th:text="${pessoa.cafeEtapa2}"></td>
-			<td th:text="${pessoa.salaEtapa2}"></td>
+			<td th:text="${pessoa.sobrenomePessoa}"></td>
 		</tr>
 	</tbody>
 </table>

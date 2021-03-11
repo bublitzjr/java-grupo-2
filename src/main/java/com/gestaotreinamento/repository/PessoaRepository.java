@@ -11,15 +11,15 @@ import com.gestaotreinamento.model.Pessoa;
 
 @Repository
 @Transactional
-public interface PessoaRepository extends CrudRepository<Pessoa, Long> {
+public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 	
 	@Query("select count(p.id) from Pessoa p")
-	Integer findTotalPessoasSala();
+	Integer findTotalPessoas();
 	
 	@Query("select p from Pessoa p where p.nomePessoa like %?1%")
 	List<Pessoa> findPessoaPeloNome(String nome);
 	
 	@Query("select p from Pessoa p order by p.id")
-	List<Pessoa> findAllOrderById();
+	List<Pessoa> findAllOrderById(); // Talvez já exista no JPA
 	
 }

@@ -1,8 +1,12 @@
 package com.gestaotreinamento.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Sala implements Serializable {
@@ -15,7 +19,10 @@ public class Sala implements Serializable {
 	@Column(nullable = false, length = 25)
 	private String nomeSala;
 
-	private Byte lotacao;
+	private int lotacao;
+
+	@OneToMany(mappedBy = "sala")
+	private List<Pessoa> pessoas;
 
 	public int getId() {
 		return id;
@@ -33,17 +40,25 @@ public class Sala implements Serializable {
 		this.nomeSala = nomeSala;
 	}
 
-	public Byte getLotacao() {
+	public int getLotacao() {
 		return lotacao;
 	}
 
-	public void setLotacao(Byte lotacao) {
+	public void setLotacao(int lotacao) {
 		this.lotacao = lotacao;
+	}
+
+	public List<Pessoa> getPessoas() {
+		return pessoas;
+	}
+
+	public void setPessoas(List<Pessoa> pessoas) {
+		this.pessoas = pessoas;
 	}
 
 	@Override
 	public String toString() {
-		return "Sala [id=" + id + ", nomeSala=" + nomeSala + ", lotacao=" + lotacao + "]";
+		return "Sala [id=" + id + ", nomeSala=" + nomeSala + ", lotacao=" + lotacao + ", pessoas=" + pessoas + "]";
 	}
 
 }
