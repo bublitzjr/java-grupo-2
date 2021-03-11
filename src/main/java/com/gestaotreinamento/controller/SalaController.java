@@ -28,6 +28,11 @@ public class SalaController {
 	
 	@PostMapping(value = "/cadastrarSala")
 	public ModelAndView cadastroSala(Sala sala) {
+		
+		int totalSalas = salaRepository.findTotalSalas();
+		totalSalas++;
+		sala.setId(totalSalas);
+		
 		salaRepository.save(sala);
 		
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
