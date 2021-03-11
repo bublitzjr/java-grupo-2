@@ -13,6 +13,24 @@ import com.gestaotreinamento.model.Pessoa;
 import com.gestaotreinamento.repository.PessoaRepository;
 import com.gestaotreinamento.repository.SalaRepository;
 
+/** Controller da sala
+ * 
+ *  * 
+ * ANNOTATIONS utilizadas no código:
+ * "@Controller":
+ * "@Autowired":
+ * "@GetMapping":
+ * "@PostMapping":
+ * 
+ *  
+ * @author Adriano Warmling 
+ * @author Jefferson Bublitz
+ * @author Lorran dos Santos
+ * @author Nádia Hansen
+ * @author Yuri Piffer 
+ */
+
+
 @Controller
 public class PessoaController {
 
