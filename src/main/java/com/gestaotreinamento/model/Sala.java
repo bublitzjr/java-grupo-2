@@ -15,7 +15,7 @@ public class Sala implements Serializable {
 	@Column(nullable = false, length = 25)
 	private String nomeSala;
 
-	private Byte lotacao;
+	private int lotacao;
 
 	public int getId() {
 		return id;
@@ -33,11 +33,11 @@ public class Sala implements Serializable {
 		this.nomeSala = nomeSala;
 	}
 
-	public Byte getLotacao() {
+	public int getLotacao() {
 		return lotacao;
 	}
 
-	public void setLotacao(Byte lotacao) {
+	public void setLotacao(int lotacao) {
 		this.lotacao = lotacao;
 	}
 

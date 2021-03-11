@@ -29,11 +29,11 @@ public class SalaController {
 	@PostMapping(value = "/cadastrarSala")
 	public ModelAndView cadastroSala(Sala sala) {
 		
-		int totalSalas = salaRepository.findTotalSalas();
+		int totalSalas = salaRepository.findTotalSalas(); //contagem de linhas da quantidade de salas
 		totalSalas++;
-		sala.setId(totalSalas);
+		sala.setId(totalSalas); //vai setar o total de salas + 1 e colocar no id 
 		
-		salaRepository.save(sala);
+		salaRepository.save(sala); //aqui salva no banco de dados
 		
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
 		Iterable<Sala> nomeSalas = salaRepository.findAll();

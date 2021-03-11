@@ -40,6 +40,10 @@ xmlns:th="http://www.thymeleaf.org">
 						<input name="nomeSala" autofocus required maxlength="25" placeholder="Digite nome da Sala..." />
 					</div>
 					
+					<div class="input-field">						
+						<input type=number name="lotacao" required min="2" max="1000" placeholder="Digite a lotação da Sala..." /> 
+					</div>
+					
 					<div class="input-field">
 						<button id="btnCadastrar" class="waves-effect waves-light btn">Cadastrar</button>
 					</div>			
@@ -72,6 +76,7 @@ xmlns:th="http://www.thymeleaf.org">
 			<tr style="background-color:#26A69A; height: 50px; color: white;">
 				<th style="padding-left: 10px;">Número</th>
 				<th style="padding: 10px; ">Nome</th>
+				<th style="padding: 10px; ">Lotação</th>
 			</tr>
 		</thead>
 
@@ -79,6 +84,7 @@ xmlns:th="http://www.thymeleaf.org">
 			<tr th:each = "sala : ${salas}">
 				<td style="padding: 8px;" th:text="${sala.id}"></td>
 				<td style="padding: 8px;" th:text="${sala.nomeSala}"></td>
+				<td style="padding: 8px;" th:text="${sala.lotacao}"></td>
 			</tr>		
 		</tbody>
 	</table>
