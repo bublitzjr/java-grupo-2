@@ -51,14 +51,16 @@ public class Pessoa implements Serializable {
 	@Column(nullable = false, length = 25)
 	private String sobrenomePessoa;
 
-	private Integer salaEtapa1;
-	private Integer salaEtapa2;
+	@SuppressWarnings("deprecation")
+	@org.hibernate.annotations.ForeignKey(name = "sala_id")
+	@ManyToOne
+	private Sala sala;
 
-	private String cafeEtapa1;
-	private String cafeEtapa2;
+	@SuppressWarnings("deprecation")
+	@org.hibernate.annotations.ForeignKey(name = "espacoCafe_id")
+	@ManyToOne
+	private EspacoCafe espacocafe;
 
-	
-	//GETTERS AND SETTERS
 	public int getId() {
 		return id;
 	}
@@ -83,45 +85,26 @@ public class Pessoa implements Serializable {
 		this.sobrenomePessoa = sobrenomePessoa;
 	}
 
-	public Integer getSalaEtapa1() {
-		return salaEtapa1;
+	public Sala getSala() {
+		return sala;
 	}
 
-	public void setSalaEtapa1(Integer salaEtapa1) {
-		this.salaEtapa1 = salaEtapa1;
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
 
-	public Integer getSalaEtapa2() {
-		return salaEtapa2;
+	public EspacoCafe getEspacocafe() {
+		return espacocafe;
 	}
 
-	public void setSalaEtapa2(Integer salaEtapa2) {
-		this.salaEtapa2 = salaEtapa2;
+	public void setEspacocafe(EspacoCafe espacocafe) {
+		this.espacocafe = espacocafe;
 	}
 
-	public String getCafeEtapa1() {
-		return cafeEtapa1;
-	}
-
-	public void setCafeEtapa1(String cafeEtapa1) {
-		this.cafeEtapa1 = cafeEtapa1;
-	}
-
-	public String getCafeEtapa2() {
-		return cafeEtapa2;
-	}
-
-	public void setCafeEtapa2(String cafeEtapa2) {
-		this.cafeEtapa2 = cafeEtapa2;
-	}
-
-	
-	//RETURN
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nomePessoa=" + nomePessoa + ", sobrenomePessoa=" + sobrenomePessoa
-				+ ", salaEtapa1=" + salaEtapa1 + ", salaEtapa2=" + salaEtapa2 + ", cafeEtapa1=" + cafeEtapa1
-				+ ", cafeEtapa2=" + cafeEtapa2 + "]";
+		return "Pessoa [id=" + id + ", nomePessoa=" + nomePessoa + ", sobrenomePessoa=" + sobrenomePessoa + ", sala="
+				+ sala + ", espacocafe=" + espacocafe + "]";
 	}
 
 }

@@ -15,7 +15,7 @@ xmlns:th="http://www.thymeleaf.org">
 
 	1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a>.<p/>
 
-	2. Para cadastrar pessoas, <a id="lnkCadastrarPessoa" href="/cadastropessoa">CLIQUE AQUI</a>.<p/>
+	2. Para cadastrar os nomes do espaço para café, <a id="lnkCadastrarCafe" href="/paginaespacocafe">CLIQUE AQUI</a>.<p/>
 
 	<div class="row" style="text-align: center;">
 		<div th:each = "m : ${msg}">
@@ -41,7 +41,7 @@ xmlns:th="http://www.thymeleaf.org">
 					</div>
 					
 					<div class="input-field">						
-						<input type=number name="lotacao" required min="2" max="1000" placeholder="Digite a lotação da Sala..." /> 
+						<input type="number" name="lotacao" min="2" max="1000" required  placeholder="Digite a lotação da Sala..." />
 					</div>
 					
 					<div class="input-field">

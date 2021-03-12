@@ -6,7 +6,7 @@ xmlns:th="http://www.thymeleaf.org">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<title>Cadastro para Salas</title>
+<title>Cadastro para Espaços de Café</title>
 </head>
 <body>
 
@@ -14,34 +14,28 @@ xmlns:th="http://www.thymeleaf.org">
 	<h2>Sistema de Gerenciamento</h2>
 
 	1. Para voltar à página inicial, <a href="/">CLIQUE AQUI</a>.<p/>
+	
+	2. Para voltar à página de cadastro de salas, <a href="/paginaSala">CLIQUE AQUI</a>.<p/>
 
-	2. Para cadastrar os nomes do espaço para café, <a id="lnkCadastrarCafe" href="/paginaespacocafe">CLIQUE AQUI</a>.<p/>
+	3. Para cadastrar pessoas, <a id="lnkCadastrarPessoa" href="/cadastropessoa">CLIQUE AQUI</a>.<p/>
 
 	<div class="row" style="text-align: center;">
 		<div th:each = "m : ${msg}">
-			<span id="salaCadastrada" th:text="${m}" style="color: #228B22; 
+			<span id="espacoCafeCadastrado" th:text="${m}" style="color: #228B22; 
 					font-weight: bold; text-transform: uppercase;"></span>
 		</div>
-
-		<div th:each = "e : ${erro}">
-			<span th:text="${e}" style="color: #b31f1f; 
-			font-weight: bold; text-transform: uppercase;"></span>
-		</div>	
+		
 	</div>
 </div>
 
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-6">
-			<h3>Cadastro de Salas</h3>
+			<h3>Cadastro de Espaço para Café</h3>
 
-			<form action="/cadastrarSala" method="post">				
+			<form action="/cadastrarEspacoCafe" method="post">				
 					<div class="input-field">						
-						<input name="nomeSala" autofocus required maxlength="25" placeholder="Digite nome da Sala..." />
-					</div>
-					
-					<div class="input-field">						
-						<input type="number" name="lotacao" min="2" max="1000" required  placeholder="Digite a lotação da Sala..." />
+						<input name="nomeDoLocal" autofocus required maxlength="25" placeholder="Digite nome do espaço para café..." />
 					</div>
 					
 					<div class="input-field">
@@ -49,6 +43,8 @@ xmlns:th="http://www.thymeleaf.org">
 					</div>			
 			</form>
 		</div>
+
+<!--  TALVEZ NÃO PRECISE DESSE BLOCO DE CÓDIGO ABAIXO
 
 		<div class="col-sm-6">
 			<h3>Pesquisa por Salas</h3>
@@ -69,22 +65,22 @@ xmlns:th="http://www.thymeleaf.org">
 	</div>
 </div>
 
+-->
+
 <div class="container-fluid">	
 	<table>	
-		<h2 style="text-align: center;">Listagem de Salas</h2>
+		<h2 style="text-align: center;">Listagem de Espaços para Café</h2>
 		<thead>
 			<tr style="background-color:#26A69A; height: 50px; color: white;">
 				<th style="padding-left: 10px;">Número</th>
 				<th style="padding: 10px; ">Nome</th>
-				<th style="padding: 10px; ">Lotação</th>
 			</tr>
 		</thead>
 
 		<tbody>
-			<tr th:each = "sala : ${salas}">
-				<td style="padding: 8px;" th:text="${sala.id}"></td>
-				<td style="padding: 8px;" th:text="${sala.nomeSala}"></td>
-				<td style="padding: 8px;" th:text="${sala.lotacao}"></td>
+			<tr th:each = "espacoCafe : ${espacosCafes}">
+				<td style="padding: 8px;" th:text="${espacoCafe.idEspaco}"></td>
+				<td style="padding: 8px;" th:text="${espacoCafe.nomeDoLocal}"></td>
 			</tr>		
 		</tbody>
 	</table>

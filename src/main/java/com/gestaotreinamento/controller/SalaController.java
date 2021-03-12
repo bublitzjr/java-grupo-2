@@ -29,11 +29,11 @@ public class SalaController {
 	@PostMapping(value = "/cadastrarSala")
 	public ModelAndView cadastroSala(Sala sala) {
 		
-		int totalSalas = salaRepository.findTotalSalas(); //contagem de linhas da quantidade de salas
+		int totalSalas = salaRepository.findTotalSalas();
 		totalSalas++;
-		sala.setId(totalSalas); //vai setar o total de salas + 1 e colocar no id 
+		sala.setId(totalSalas);
 		
-		salaRepository.save(sala); //aqui salva no banco de dados
+		salaRepository.save(sala);
 		
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
 		Iterable<Sala> nomeSalas = salaRepository.findAll();
@@ -50,7 +50,7 @@ public class SalaController {
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
 		
 		if(salasEncontradas.isEmpty()) {
-			modelAndView.addObject("erro", " Nenhuma sala encontrada");
+			modelAndView.addObject("erro", "Nenhuma sala encontrada");
 		} else {
 			modelAndView.addObject("salas", salasEncontradas);
 		}
