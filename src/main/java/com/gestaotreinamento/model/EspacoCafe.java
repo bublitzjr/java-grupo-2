@@ -51,4 +51,6 @@ public class EspacoCafe implements Serializable {
 		return "EspacoCafe [idEspaco=" + idEspaco + ", nomeDoLocal=" + nomeDoLocal + ", pessoas=" + pessoas + "]";
 	}
 
+	
+
 }

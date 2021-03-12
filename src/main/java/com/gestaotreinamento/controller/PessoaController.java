@@ -9,28 +9,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gestaotreinamento.model.EspacoCafe;
 import com.gestaotreinamento.model.Pessoa;
+import com.gestaotreinamento.model.Sala;
 import com.gestaotreinamento.repository.EspacoCafeRepository;
 import com.gestaotreinamento.repository.PessoaRepository;
 import com.gestaotreinamento.repository.SalaRepository;
 
-/** Controller da sala
+/**
+ * Controller da sala
  * 
- *  * 
- * ANNOTATIONS utilizadas no código:
- * "@Controller":
- * "@Autowired":
- * "@GetMapping":
- * "@PostMapping":
+ * * ANNOTATIONS utilizadas no código: "@Controller": "@Autowired":
+ * "@GetMapping": "@PostMapping":
  * 
- *  
- * @author Adriano Warmling 
+ * 
+ * @author Adriano Warmling
  * @author Jefferson Bublitz
  * @author Lorran dos Santos
  * @author Nádia Hansen
- * @author Yuri Piffer 
+ * @author Yuri Piffer
  */
-
 
 @Controller
 public class PessoaController {
@@ -40,7 +38,7 @@ public class PessoaController {
 
 	@Autowired
 	private SalaRepository salaRepository;
-	
+
 	@Autowired
 	private EspacoCafeRepository espacoCafeRepository;
 
@@ -52,9 +50,8 @@ public class PessoaController {
 		// Para fazer com que haja pelo menos duas salas já cadastradas
 		if (qtdEspacoCafe < 2) {
 			modelAndView = new ModelAndView("paginas/cadastroespacocafe");
-			modelAndView.addObject(
-					"msg", "Cadastre dois espaços para café no sistema para que você possa" 
-							+ " cadastrar uma pessoa");
+			modelAndView.addObject("msg",
+					"Cadastre dois espaços para café no sistema para que você possa" + " cadastrar uma pessoa");
 			return modelAndView;
 		}
 		modelAndView = new ModelAndView("paginas/cadastropessoa");
@@ -67,18 +64,18 @@ public class PessoaController {
 
 		int totalPessoas = pessoaRepository.findTotalPessoas();
 
-		
-		/* Aqui vai ser preciso eu fazer uma busca no BD pelo menor valor de lotação
-		 * que tiver na sala pra atribuir no lugar desse 20 */
+		/*
+		 * Aqui vai ser preciso eu fazer uma busca no BD pelo menor valor de lotação que
+		 * tiver na sala pra atribuir no lugar desse 20
+		 */
 		if (totalPessoas > 20) {
 			ModelAndView modelAndView = new ModelAndView("paginas/cadastropessoa");
-			modelAndView.addObject("msg", "Pessoa não cadastrada!!" 
-					+ " Limite de 20 pessoas por sala!");
+			modelAndView.addObject("msg", "Pessoa não cadastrada!!" + " Limite de 20 pessoas por sala!");
 		}
-		
+
 		totalPessoas++;
 		pessoa.setId(totalPessoas);
-		
+
 		pessoaRepository.save(pessoa);
 
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastropessoa");
@@ -89,7 +86,7 @@ public class PessoaController {
 	@GetMapping(value = "/listaDeCadastrados")
 	public ModelAndView pessoasCadastradas() {
 		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
-		List<Pessoa> totalPessoas = pessoaRepository.findAllOrderById();
+		Iterable<Pessoa> totalPessoas = pessoaRepository.findAll();
 		modelAndView.addObject("pessoas", totalPessoas);
 		return modelAndView;
 	}
@@ -104,120 +101,105 @@ public class PessoaController {
 
 		if (totalPessoas < salasCadastradas.size()) {
 			modelAndView = new ModelAndView("paginas/cadastropessoa");
-			modelAndView.addObject(
-					"msg", "Você precisa cadastrar ao menos 2 pessoas por sala no sistema!");
+			modelAndView.addObject("msg", "Você precisa cadastrar ao menos 2 pessoas por sala no sistema!");
 		} else {
-			
-		//	pessoasCadastradas = distribuirPessoasPorSala();
+
+			pessoasCadastradas = distribuirTodasPessoas();
 
 			for (int i = 0; i < pessoasCadastradas.size(); i++) {
 				pessoaRepository.save(pessoasCadastradas.get(i));
 			}
 
+			/* Talvez eu tenha que fazer um FOR para cadastrar as etapas no BD */
+
 			modelAndView = new ModelAndView("paginas/listacadastrados");
 			modelAndView.addObject("pessoas", pessoaRepository.findAllOrderById());
-			modelAndView.addObject(
-					"msg", "DISTRIBUIÇÃO FEITA COM SUCESSO!");
+			modelAndView.addObject("msg", "DISTRIBUIÇÃO FEITA COM SUCESSO!");
 		}
 
 		return modelAndView;
 	}
-	
+
 	@PostMapping("**/pesquisarpessoa")
 	public ModelAndView pesquisarPorNome(@RequestParam("primeironome") String primeironome) {
-		
+
 		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
 		modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(primeironome));
-		
+
 		return modelAndView;
 	}
-	
-	/* Essa aqui talvez seja uma função a ser adaptada. Didaticamente é interessante que
-	 * haja uma exclusão por cascata, da sala e das pessoas e depois a do local do café */
+
+	/*
+	 * Essa aqui talvez seja uma função a ser adaptada. Didaticamente é interessante
+	 * que haja uma exclusão por cascata, da sala e das pessoas e depois a do local
+	 * do café. Agora que foi criada a classe para Evento, INCLUIR ela nesse Apagar
+	 */
 	@GetMapping(value = "/apagarTudo")
 	public ModelAndView apagarTudo() {
 		pessoaRepository.deleteAll();
 		salaRepository.deleteAll();
 		espacoCafeRepository.deleteAll();
-		
+
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
-		modelAndView.addObject("msg", "Salas, Espaços de Café e Usuários foram removidos"
-				+ " com sucesso do Banco de Dados!");
-		
+		modelAndView.addObject("msg",
+				"Salas, Espaços de Café e Usuários foram removidos" + " com sucesso do Banco de Dados!");
+
 		return modelAndView;
 	}
-	
-	
-	/*	
-	private List<Pessoa> distribuirPessoasPorSala() {
 
-		List<Pessoa> pessoasCadastradas = pessoaRepository.findAllOrderById();
-		List<Sala> salasCadastradas = (List<Sala>) salaRepository.findAll();
+	private List<Pessoa> distribuirTodasPessoas() {
 
-		// Por aqui eu consigo tirar a média
-		int media = pessoasCadastradas.size() / 2;
-		
-		for(int i = 0; i < pessoasCadastradas.size(); i++) {
-				
-			if(pessoasCadastradas.get(i).getId() % 2 == 1) {
-		//		pessoasCadastradas.get(i).setSala(sala);
+		List<Pessoa> totalPessoas = (List<Pessoa>) pessoaRepository.findAll();
+		List<Sala> totalSalas = (List<Sala>) salaRepository.findAll();
+		List<EspacoCafe> totalEspacoCafe = (List<EspacoCafe>) espacoCafeRepository.findAll();
+
+		int media = totalPessoas.size() / 2;
+
+		// Distribuindo para os espaços de café OK
+		for (int i = 0; i < totalPessoas.size(); i++) {
+
+			if (totalPessoas.get(i).getId() % 2 != 0) {
+				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(0));
 			} else {
-				pessoasCadastradas.get(i).setSala(pessoasCadastradas.get(i).getSala());
+				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(1));
 			}
 		}
-		
-		
-		*/
-			
-			
 
-			
-			
-			
-			
-			
-		//for (int i = 0; i < pessoasCadastradas.size(); i++) {
-			
-		//	if (idSala > salasCadastradas.size()) {
-		//		idSala = 1;
-		//	}
+		int vetSala = 0;
 
-			/*
-			// id de usuário ímpar = espaço de café ímpar (e vice-versa)
-			pessoasCadastradas.get(i).setSalaEtapa1(idSala);
-			idSala++;
-			if (pessoasCadastradas.get(i).getId() % 2 == 1) {
-				pessoasCadastradas.get(i).setCafeEtapa1("Espaço para Café 1");
-				pessoasCadastradas.get(i).setCafeEtapa2("Espaço para Café 1");
+		// Distribuindo para as salas na primeira etapa
+
+		for (int i = 0; i < totalPessoas.size(); i++) {
+			if (vetSala == 0) {
+				totalPessoas.get(i).setSala1(vetSala);
+				vetSala++;
+			}
+
+			else if (vetSala == totalSalas.size() - 1) {
+				totalPessoas.get(i).setSala1(vetSala);
+				vetSala = 0;
 			} else {
-				pessoasCadastradas.get(i).setCafeEtapa1("Espaço para Café 2");
-				pessoasCadastradas.get(i).setCafeEtapa2("Espaço para Café 2");
+				totalPessoas.get(i).setSala1(vetSala);
+				vetSala++;
 			}
+		}
 
-			/* Caso o id da pessoa esteja abaixo da média total de pessoas por sala, ela irá
-				continuar nesta mesma sala  */
-			//if (pessoasCadastradas.get(i).getId() <= media) {
-				//pessoasCadastradas.get(i).setSalaEtapa2(pessoasCadastradas.get(i).getSalaEtapa1());
-			//}
-			
+		// Distribuindo para as salas na segunda etapa
 
-			/* Caso o id da pessoa esteja acima da média total de pessoas por sala, ela
-				avançará 1 sala */
+		for (int i = 0; i < totalPessoas.size(); i++) {
+			if (vetSala == 0 && totalPessoas.get(i).getId() < media) {
+				totalPessoas.get(i).setSala2(vetSala);
+				vetSala++;
+			} 			
 			
-			/*
 			else {
-				if (pessoasCadastradas.get(i).getSalaEtapa1() == salasCadastradas.size()) {
-					int novoId = 1;
-					pessoasCadastradas.get(i).setSalaEtapa2(novoId);
-				} else {
-					pessoasCadastradas.get(i).setSalaEtapa2(pessoasCadastradas.get(i).getSalaEtapa1() + 1);
-				}
+				totalPessoas.get(i).setSala2(vetSala + 1);
+				vetSala = 0;
 			}
-			*/
-			
-	//	}
-//		return pessoasCadastradas;
-//	}
-	
-	
+
+		}
+
+		return totalPessoas;
+	}
+
 }
