@@ -70,7 +70,7 @@ public class PessoaController {
 		 */
 		if (totalPessoas > 20) {
 			ModelAndView modelAndView = new ModelAndView("paginas/cadastropessoa");
-			modelAndView.addObject("msg", "Pessoa não cadastrada!!" + " Limite de 20 pessoas por sala!");
+			modelAndView.addObject("msg", "Pessoa NÃO cadastrada!!" + " Limite de 20 pessoas por sala!");
 		}
 
 		totalPessoas++;
@@ -86,7 +86,7 @@ public class PessoaController {
 	@GetMapping(value = "/listaDeCadastrados")
 	public ModelAndView pessoasCadastradas() {
 		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
-		Iterable<Pessoa> totalPessoas = pessoaRepository.findAll();
+		List<Pessoa> totalPessoas = pessoaRepository.findAllOrderById();
 		modelAndView.addObject("pessoas", totalPessoas);
 		return modelAndView;
 	}
@@ -98,19 +98,29 @@ public class PessoaController {
 		int totalPessoas = pessoaRepository.findTotalPessoas();
 		List<Pessoa> pessoasCadastradas = pessoaRepository.findAllOrderById();
 		List<Integer> salasCadastradas = salaRepository.findAllId();
+		int menorSala = salaRepository.findMenorLotacao();
+
+		// Média de pessoas por sala
+		int mediaPessoas = pessoasCadastradas.size() / salasCadastradas.size();
 
 		if (totalPessoas < salasCadastradas.size()) {
 			modelAndView = new ModelAndView("paginas/cadastropessoa");
 			modelAndView.addObject("msg", "Você precisa cadastrar ao menos 2 pessoas por sala no sistema!");
-		} else {
+		}
+
+		else if (mediaPessoas > menorSala) {
+			modelAndView = new ModelAndView("paginas/cadastrosala");
+			modelAndView.addObject("msg", "Pessoa NÃO cadastrada! Você estourou a lotação, cadastre "
+					+ "outra sala e redistribua novamente as pessoas pelas salas!");
+		}
+
+		else {
 
 			pessoasCadastradas = distribuirTodasPessoas();
 
 			for (int i = 0; i < pessoasCadastradas.size(); i++) {
 				pessoaRepository.save(pessoasCadastradas.get(i));
 			}
-
-			/* Talvez eu tenha que fazer um FOR para cadastrar as etapas no BD */
 
 			modelAndView = new ModelAndView("paginas/listacadastrados");
 			modelAndView.addObject("pessoas", pessoaRepository.findAllOrderById());
@@ -129,11 +139,6 @@ public class PessoaController {
 		return modelAndView;
 	}
 
-	/*
-	 * Essa aqui talvez seja uma função a ser adaptada. Didaticamente é interessante
-	 * que haja uma exclusão por cascata, da sala e das pessoas e depois a do local
-	 * do café. Agora que foi criada a classe para Evento, INCLUIR ela nesse Apagar
-	 */
 	@GetMapping(value = "/apagarTudo")
 	public ModelAndView apagarTudo() {
 		pessoaRepository.deleteAll();
@@ -155,48 +160,72 @@ public class PessoaController {
 
 		int media = totalPessoas.size() / 2;
 
-		// Distribuindo para os espaços de café OK
+		// Distribuindo as pessoas pelos locais de café
 		for (int i = 0; i < totalPessoas.size(); i++) {
 
-			if (totalPessoas.get(i).getId() % 2 != 0) {
+			if (totalPessoas.get(i).getId() % 2 != 0) { // SE idUsuario == IMPAR, ESPAÇO IMPAR
 				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(0));
-			} else {
+				totalPessoas.get(i).setLocalCafe(1);
+			} else { // SE idUsuario == PAR, ESPAÇO PAR
 				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(1));
+				totalPessoas.get(i).setLocalCafe(2);
 			}
 		}
 
-		int vetSala = 0;
-
-		// Distribuindo para as salas na primeira etapa
+		// Distribuindo as pessoas pela sala na 1ª etapa
+		int idSala = 1;
 
 		for (int i = 0; i < totalPessoas.size(); i++) {
-			if (vetSala == 0) {
-				totalPessoas.get(i).setSala1(vetSala);
-				vetSala++;
-			}
-
-			else if (vetSala == totalSalas.size() - 1) {
-				totalPessoas.get(i).setSala1(vetSala);
-				vetSala = 0;
-			} else {
-				totalPessoas.get(i).setSala1(vetSala);
-				vetSala++;
+			if (idSala < totalSalas.size()) { // SE o idSala < do totalDeSalas
+				totalPessoas.get(i).setSalaEtapa1(idSala);
+				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				idSala++; // Ele adiciona ao objeto e soma + 1 ao idSala
+			} else { // SE idSala == totalDeSalas, é o limite de salas para ele não ficar sem sala
+				totalPessoas.get(i).setSalaEtapa1(idSala);
+				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				idSala = 1;
 			}
 		}
 
 		// Distribuindo para as salas na segunda etapa
+		idSala = 1;
 
 		for (int i = 0; i < totalPessoas.size(); i++) {
-			if (vetSala == 0 && totalPessoas.get(i).getId() < media) {
-				totalPessoas.get(i).setSala2(vetSala);
-				vetSala++;
-			} 			
-			
-			else {
-				totalPessoas.get(i).setSala2(vetSala + 1);
-				vetSala = 0;
+
+			// Se o idSala for menor que a qtd total de salas & idUsuario <= média total de
+			// usuários
+			if (idSala < totalSalas.size() && totalPessoas.get(i).getId() <= media) {
+
+				// Ele fica na mesma sala da primeira etapa
+				totalPessoas.get(i).setSalaEtapa2(totalPessoas.get(i).getSalaEtapa1());
+				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				idSala++;
+
 			}
 
+			// SE idSala for menor que a qtd total de salas & idUsuario > média total de
+			// usuários
+			else if (idSala < totalSalas.size() && totalPessoas.get(i).getId() > media) {
+				totalPessoas.get(i).setSalaEtapa2(totalPessoas.get(i).getSalaEtapa1() + 1);
+				totalPessoas.get(i).setSala(totalSalas.get(idSala));
+				idSala++;
+			}
+
+			// SE idSala for igual à qtd total de salas & idUsuario > média total de
+			// usuários
+			else if (idSala == totalSalas.size() && totalPessoas.get(i).getId() > media) {
+				totalPessoas.get(i).setSalaEtapa2(1);
+				totalPessoas.get(i).setSala(totalSalas.get(0));
+				idSala = 1;
+
+			}
+
+			else { // SE idSala for igual à qtd total de salas & idUsuario <= média total de
+					// usuários
+				totalPessoas.get(i).setSalaEtapa2(totalPessoas.get(i).getSalaEtapa1());
+				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				idSala = 1;
+			}
 		}
 
 		return totalPessoas;
