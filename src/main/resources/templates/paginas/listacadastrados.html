@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<meta charset="UTF-8">	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <title>Lista de Cadastrados</title>
 </head>
@@ -26,22 +26,40 @@ xmlns:th="http://www.thymeleaf.org">
 
 <h2>Pesquisar por nome</h2>
 
+
+  
 <div class="row">
-
 	<form action="/pesquisarpessoa" method="post" class="col s12">
-
+		
 		<div class="row">
-			<div class="input-field col s4">
-				<label class="active">Insira o nome</label>
-				<input name="primeironome" autofocus />
+			<div class="input-field col s4">				
+				<input name="campoFiltro" autofocus placeholder="Digite filtro..." />
 			</div>
-			
 			<div class="input-field col s6">
-				<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>
-			</div>	
+				<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>				
+			</div>			
 		</div>
+		
+		<div class="row">
+		<div class="input-field col s3">		
+		<select name="filtro" id="filtro" required="">
+			<option value="">Selecione...</option>
+			<option value="1">Pessoa</option>
+			<option value="2">Sala</option>
+			<option value="3">Espaço café</option>
+		</select>
+	</div>
+</div>
+		
 	</form>
 </div>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+});
+</script>
 	
 <h2>Listagem de Pessoal</h2>
 

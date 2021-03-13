@@ -103,9 +103,10 @@ public class SalaController {
 	 * @return modelAndView com todas as salas filtradas.
 	 */
 	@PostMapping(value = "**/pesquisarSala")
-	public ModelAndView pesquisarSalaPorNome(@RequestParam("pesqNomeSalas") String pesqNomeSalas) {
 
-		List<Sala> salasEncontradas = salaRepository.findSalaPorNome(pesqNomeSalas);
+	  public ModelAndView pesquisarSalaPorNome(@RequestParam("pesqNomeSalas") String pesqNomeSalas) {
+
+    List<Sala> salasEncontradas = salaRepository.findSalaPorNome(pesqNomeSalas);
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
 
 		if (salasEncontradas.isEmpty()) {
