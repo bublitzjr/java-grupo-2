@@ -17,11 +17,20 @@ import com.gestaotreinamento.repository.PessoaRepository;
 import com.gestaotreinamento.repository.SalaRepository;
 
 /**
- * Controller da sala
+ * PessoaController recebe as requisões relacionadas às pessoas cadastradas no
+ * evento e responde de volta ao View.
  * 
- * * ANNOTATIONS utilizadas no código: "@Controller": "@Autowired":
- * "@GetMapping": "@PostMapping":
+ * O ModelAndView é um construtor que possibilita a comunicação com o model e o
+ * retorno da view no mesmo return, portanto faz a interlocução entre backend e
+ * frontend.
  * 
+ * ANNOTATIONS utilizadas no código:
+ * 
+ * @Controller indica que uma classe é um controller.
+ * @Autowired injeção de dependência.
+ * @GetMapping Mapeamento da url com método get.
+ * @PostMapping Mapeamento da url com método post.
+ * @RequestParam Requisição de parâmetros da View.
  * 
  * @author Adriano Warmling
  * @author Jefferson Bublitz
@@ -29,10 +38,13 @@ import com.gestaotreinamento.repository.SalaRepository;
  * @author Nádia Hansen
  * @author Yuri Piffer
  */
-
 @Controller
 public class PessoaController {
 
+	/**
+	 * Retorna os objetos mantidos no banco de dados a partir dos filtros {pessoa},
+	 * {sala} e {espaco_cafe} passados.
+	 */
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
@@ -42,6 +54,16 @@ public class PessoaController {
 	@Autowired
 	private EspacoCafeRepository espacoCafeRepository;
 
+	/**
+	 * A partir do mapeamento get da url "/cadastropessoa", o total de espaços de
+	 * café é carregado no qtdEspacoCafe. Depois é checado se o número de espaços de
+	 * café {qtdEspacoCafe} é menor que 2. Caso seja, é impresso na tela uma pedido
+	 * para que se cadastre o total de espaços de café. Quando qtdEspacoCafe é igual
+	 * a 2, retorna e renderiza a url "paginas/cadastropessoa".
+	 * 
+	 * @return modelAndView direcionando para o cadastro de pessoas. @see url
+	 *         "paginas/cadastropessoa"
+	 */
 	@GetMapping(value = "/cadastropessoa")
 	public ModelAndView inicioPessoa() {
 		ModelAndView modelAndView;
@@ -59,6 +81,11 @@ public class PessoaController {
 		return modelAndView;
 	}
 
+	/**
+	 * SERÁ MODIFICADO - SERÁ MODIFICADO - SERÁ MODIFICADO
+	 * 
+	 * @param pessoa
+	 */
 	@PostMapping(value = "/cadastrarpessoa")
 	public ModelAndView cadastroPessoa(Pessoa pessoa) {
 
@@ -83,6 +110,13 @@ public class PessoaController {
 		return modelAndView;
 	}
 
+	/**
+	 * A partir do mapeamento get da url "/listaDeCadastrados", a lista de pessoas
+	 * ordenadas por id é carregada em totalPessoas e retornada no modelAndView para
+	 * a View.
+	 * 
+	 * @return modelAndView de pessoas ordenadas por id.
+	 */
 	@GetMapping(value = "/listaDeCadastrados")
 	public ModelAndView pessoasCadastradas() {
 		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
@@ -91,6 +125,25 @@ public class PessoaController {
 		return modelAndView;
 	}
 
+	/**
+	 * A partir do mapeamento get da url "/distribuir", a lista de pessoas ordenadas
+	 * por id é carregada em pessoasCadastradas. A var. menorSala recebe a sala com
+	 * menor lotação entre as salas cadastradas. A var. mediaPessoas recebe a razão
+	 * entre o total de pessoas e salas cadastradas.
+	 * 
+	 * A primeira condição avaliada é se o número total de pessoas é menor que o
+	 * total de salas cadastradas. Neste caso é impresso na tela que o usuário
+	 * precisa cadastrar pelo menos duas pessoas por sala.
+	 * 
+	 * A segunda condição avaliada é se a razão entre pessoas e salas é maior que a
+	 * sala com menor capacidade. Novamente é impresso na tela que o usuário precisa
+	 * cadastrar pelo menos duas pessoas por sala.
+	 * 
+	 * Descartadas as duas conições acima, é feita a distribuição de sala com return
+	 * para a View. @see função distribuirTodasPessoas() nas linhas abaixo.
+	 * 
+	 * @return modelAndView de pessoas ordenadas por id.
+	 */
 	@GetMapping(value = "/distribuir")
 	public ModelAndView distribuirPessoas() {
 
@@ -100,22 +153,24 @@ public class PessoaController {
 		List<Integer> salasCadastradas = salaRepository.findAllId();
 		int menorSala = salaRepository.findMenorLotacao();
 
-		// Média de pessoas por sala
+		// ?? salasCadastradas.size() poderia ser modificado por totalPessoas ??
 		int mediaPessoas = pessoasCadastradas.size() / salasCadastradas.size();
 
+		// CONDIÇÃO 1
 		if (totalPessoas < salasCadastradas.size()) {
 			modelAndView = new ModelAndView("paginas/cadastropessoa");
 			modelAndView.addObject("msg", "Você precisa cadastrar ao menos 2 pessoas por sala no sistema!");
 		}
 
+		// CONDIÇÃO 2
 		else if (mediaPessoas > menorSala) {
 			modelAndView = new ModelAndView("paginas/cadastrosala");
 			modelAndView.addObject("msg", "Pessoa NÃO cadastrada! Você estourou a lotação, cadastre "
 					+ "outra sala e redistribua novamente as pessoas pelas salas!");
 		}
 
+		// DISTRIBUIÇÃO
 		else {
-
 			pessoasCadastradas = distribuirTodasPessoas();
 
 			for (int i = 0; i < pessoasCadastradas.size(); i++) {
@@ -130,6 +185,14 @@ public class PessoaController {
 		return modelAndView;
 	}
 
+	/**
+	 * A partir do mapeamento post da url "/pesquisarpessoa", o @RequestParam
+	 * captura o que foi digitado no campo e carrega na variável primeironome como
+	 * uma string. Esse valor atuará como filtro no pessoaRepository e o resultado
+	 * dessa busca será salvo em uma lista pessoas, que é retornada à View.
+	 * 
+	 * @return modelAndView de pessoas pelo filtro do primeiro nome.
+	 */
 	@PostMapping("**/pesquisarpessoa")
 	public ModelAndView campoFiltro(@RequestParam("campoFiltro") String campoFiltro, @RequestParam("filtro") Integer filtro) {
 				
@@ -149,6 +212,14 @@ public class PessoaController {
 		return modelAndView;
 	}
 
+	/**
+	 * A partir do mapeamento get da url "/apagarTudo", todos os dados mantidos no
+	 * repositório são apagados e é impresso uma mensagem na tela avisando o
+	 * ocorrido.
+	 * 
+	 * @return modelAndView com a mensagem de sucesso da execução de exclusão de
+	 *         dados.
+	 */
 	@GetMapping(value = "/apagarTudo")
 	public ModelAndView apagarTudo() {
 		pessoaRepository.deleteAll();
@@ -162,6 +233,12 @@ public class PessoaController {
 		return modelAndView;
 	}
 
+	/**
+	 * Função com a lógica de distribuição de pessoas de acordo com as regras de
+	 * négócios apresentadas pelo cliente.
+	 * 
+	 * @return ??????????????????????????????
+	 */
 	private List<Pessoa> distribuirTodasPessoas() {
 
 		List<Pessoa> totalPessoas = (List<Pessoa>) pessoaRepository.findAll();
