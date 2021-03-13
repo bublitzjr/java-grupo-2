@@ -133,8 +133,7 @@ public class PessoaController {
 	@PostMapping("**/pesquisarpessoa")
 	public ModelAndView campoFiltro(@RequestParam("campoFiltro") String campoFiltro, @RequestParam("filtro") Integer filtro) {
 				
-		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
-		modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(campoFiltro));
+		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");		
 
 		if(filtro == 1)
 		{
