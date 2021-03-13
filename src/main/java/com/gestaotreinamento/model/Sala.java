@@ -13,17 +13,19 @@ import javax.persistence.OneToMany;
  * recebe o nome da sala, lotação, gera um id e persiste no banco de dados
  * (tabela XXXX).
  * 
- * @param id:       Chave primária de identificação da sala.
- * @param nomeSala: String com o nome da sala.
- * @param lotacao:  Número de pessaas que a sala comporta.
+ * @param id       Chave primária de identificação da sala.
+ * @param nomeSala String com o nome da sala.
+ * @param lotacao  Número de pessaas que a sala comporta.
  * 
  * @return Retorna para a camada controller os atributos do objeto concatenados
  *         em uma String (id,nomeSala, lotacao).
  * 
- *         ANNOTATIONS utilizadas no código: "@Entity": Especifica que a classe
- *         é uma entidade. @see &&&PUXAR REFERÊNICA&&& "@Id": Especifica uma
- *         chave primária. @see &&&PUXAR REFERÊNICA&&& "@Column": Especifica
- *         condições para a persistência dos dados. @see &&&PUXAR REFERÊNICA&&&
+ *         ANNOTATIONS utilizadas no código
+ * 
+ * @Entity Especifica que a classe é uma entidade. @see &&&PUXAR REFERÊNICA&&&
+ * @Id Especifica uma chave primária. @see &&&PUXAR REFERÊNICA&&&
+ * @Column Especifica condições para a persistência dos dados. @see &&&PUXAR
+ *         REFERÊNICA&&&
  * 
  * @author Adriano Warmling
  * @author Jefferson Bublitz
@@ -44,7 +46,7 @@ public class Sala implements Serializable {
 	private String nomeSala;
 
 	private int lotacao;
-	
+
 	@OneToMany(mappedBy = "sala")
 	private List<Pessoa> pessoas;
 
