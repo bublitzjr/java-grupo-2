@@ -60,16 +60,21 @@ public class Pessoa implements Serializable {
 	@Column(nullable = false, length = 25)
 	private String sobrenomePessoa;
 
-	private int espacoCafe;
+	private int localCafe;
 
-	private int sala1;
+	private int salaEtapa1;
 
-	private int sala2;
+	private int salaEtapa2;
 
 	@SuppressWarnings("deprecation")
 	@org.hibernate.annotations.ForeignKey(name = "espacoCafe_id")
 	@ManyToOne
 	private EspacoCafe espacocafe;
+
+	@SuppressWarnings("deprecation")
+	@org.hibernate.annotations.ForeignKey(name = "sala_id")
+	@ManyToOne
+	private Sala sala;
 
 	public int getId() {
 		return id;
@@ -95,28 +100,28 @@ public class Pessoa implements Serializable {
 		this.sobrenomePessoa = sobrenomePessoa;
 	}
 
-	public int getEspacoCafe() {
-		return espacoCafe;
+	public int getLocalCafe() {
+		return localCafe;
 	}
 
-	public void setEspacoCafe(int espacoCafe) {
-		this.espacoCafe = espacoCafe;
+	public void setLocalCafe(int localCafe) {
+		this.localCafe = localCafe;
 	}
 
-	public int getSala1() {
-		return sala1;
+	public int getSalaEtapa1() {
+		return salaEtapa1;
 	}
 
-	public void setSala1(int sala1) {
-		this.sala1 = sala1;
+	public void setSalaEtapa1(int salaEtapa1) {
+		this.salaEtapa1 = salaEtapa1;
 	}
 
-	public int getSala2() {
-		return sala2;
+	public int getSalaEtapa2() {
+		return salaEtapa2;
 	}
 
-	public void setSala2(int sala2) {
-		this.sala2 = sala2;
+	public void setSalaEtapa2(int salaEtapa2) {
+		this.salaEtapa2 = salaEtapa2;
 	}
 
 	public EspacoCafe getEspacocafe() {
@@ -127,11 +132,19 @@ public class Pessoa implements Serializable {
 		this.espacocafe = espacocafe;
 	}
 
+	public Sala getSala() {
+		return sala;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nomePessoa=" + nomePessoa + ", sobrenomePessoa=" + sobrenomePessoa
-				+ ", espacoCafe=" + espacoCafe + ", sala1=" + sala1 + ", sala2=" + sala2 + ", espacocafe=" + espacocafe
-				+ "]";
+				+ ", localCafe=" + localCafe + ", salaEtapa1=" + salaEtapa1 + ", salaEtapa2=" + salaEtapa2
+				+ ", espacocafe=" + espacocafe + ", sala=" + sala + "]";
 	}
 
 }

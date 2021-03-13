@@ -21,4 +21,8 @@ public interface SalaRepository extends CrudRepository<Sala, Integer> {
 	
 	@Query("select p from Sala p where nomeSala like %?1%")
 	List<Sala> findSalaPorNome(String nomeSala);
+	
+	@Query("select min(s.lotacao) from Sala s")
+	int findMenorLotacao();
+	
 }
