@@ -9,9 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- * Sala - Parte da camada de Model Construtor da "Sala": Cria um objeto que
- * recebe o nome da sala, lotação, gera um id e persiste no banco de dados
- * (tabela XXXX).
+ * Classe Sala da Camada MODEL: Cria um objeto que recebe o nome da sala,
+ * lotação, gera um id e mantém no banco de dados (tabela 'sala').
  * 
  * @param id       Chave primária de identificação da sala.
  * @param nomeSala String com o nome da sala.
@@ -21,11 +20,9 @@ import javax.persistence.OneToMany;
  *         em uma String (id,nomeSala, lotacao).
  * 
  *         ANNOTATIONS utilizadas no código
- * 
- * @Entity Especifica que a classe é uma entidade. @see &&&PUXAR REFERÊNICA&&&
- * @Id Especifica uma chave primária. @see &&&PUXAR REFERÊNICA&&&
- * @Column Especifica condições para a persistência dos dados. @see &&&PUXAR
- *         REFERÊNICA&&&
+ * @Entity Especifica que a classe é uma entidade.
+ * @Id Especifica uma chave primária.
+ * @Column Especifica condições para a persistência dos dados.
  * 
  * @author Adriano Warmling
  * @author Jefferson Bublitz
@@ -50,6 +47,7 @@ public class Sala implements Serializable {
 	@OneToMany(mappedBy = "sala")
 	private List<Pessoa> pessoas;
 
+	//GETTERS & SETTERS
 	public int getId() {
 		return id;
 	}
@@ -74,6 +72,7 @@ public class Sala implements Serializable {
 		this.lotacao = lotacao;
 	}
 
+	//RETURN
 	@Override
 	public String toString() {
 		return "Sala [id=" + id + ", nomeSala=" + nomeSala + ", lotacao=" + lotacao + "]";
