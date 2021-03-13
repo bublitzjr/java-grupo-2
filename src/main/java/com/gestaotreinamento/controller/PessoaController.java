@@ -126,15 +126,26 @@ public class PessoaController {
 			modelAndView.addObject("pessoas", pessoaRepository.findAllOrderById());
 			modelAndView.addObject("msg", "DISTRIBUIÇÃO FEITA COM SUCESSO!");
 		}
-
+		
 		return modelAndView;
 	}
 
 	@PostMapping("**/pesquisarpessoa")
-	public ModelAndView pesquisarPorNome(@RequestParam("primeironome") String primeironome) {
-
+	public ModelAndView campoFiltro(@RequestParam("campoFiltro") String campoFiltro, @RequestParam("filtro") Integer filtro) {
+				
 		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
-		modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(primeironome));
+		modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(campoFiltro));
+
+		if(filtro == 1)
+		{
+			modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(campoFiltro));
+		}else if( filtro == 2 ) 
+		{
+			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata1(Integer.parseInt(campoFiltro)));
+		} else if (filtro == 3) 
+		{
+			modelAndView.addObject("pessoas", pessoaRepository.findEspacoCafe(Integer.parseInt(campoFiltro)));
+		}
 
 		return modelAndView;
 	}

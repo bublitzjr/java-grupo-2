@@ -50,7 +50,4 @@ public class EspacoCafe implements Serializable {
 	public String toString() {
 		return "EspacoCafe [idEspaco=" + idEspaco + ", nomeDoLocal=" + nomeDoLocal + ", pessoas=" + pessoas + "]";
 	}
-
-	
-
 }

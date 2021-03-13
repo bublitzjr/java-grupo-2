@@ -66,7 +66,7 @@ public class Pessoa implements Serializable {
 	private int salaEtapa1;
 
 	private int salaEtapa2;
-
+	
 	@SuppressWarnings("deprecation")
 	@org.hibernate.annotations.ForeignKey(name = "espacoCafe_id")
 	@ManyToOne
@@ -75,7 +75,7 @@ public class Pessoa implements Serializable {
 	@SuppressWarnings("deprecation")
 	@org.hibernate.annotations.ForeignKey(name = "sala_id")
 	@ManyToOne
-	private Sala sala;
+	private Sala sala;	
 
 	public int getId() {
 		return id;
@@ -108,7 +108,7 @@ public class Pessoa implements Serializable {
 	public void setLocalCafe(int localCafe) {
 		this.localCafe = localCafe;
 	}
-
+	
 	public int getSalaEtapa1() {
 		return salaEtapa1;
 	}
@@ -146,6 +146,5 @@ public class Pessoa implements Serializable {
 		return "Pessoa [id=" + id + ", nomePessoa=" + nomePessoa + ", sobrenomePessoa=" + sobrenomePessoa
 				+ ", localCafe=" + localCafe + ", salaEtapa1=" + salaEtapa1 + ", salaEtapa2=" + salaEtapa2
 				+ ", espacocafe=" + espacocafe + ", sala=" + sala + "]";
-	}
-
+	}	
 }

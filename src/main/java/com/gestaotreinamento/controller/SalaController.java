@@ -44,7 +44,8 @@ public class SalaController {
 	}
 	
 	@PostMapping(value = "**/pesquisarSala")
-	public ModelAndView pesquisarSalaPorNome(@RequestParam("pesqNomeSalas") String pesqNomeSalas) {
+	public ModelAndView pesquisarSalaPorNome(@RequestParam("pesqNomeSalas") String pesqNomeSalas) {	
+		
 		
 		List<Sala> salasEncontradas = salaRepository.findSalaPorNome(pesqNomeSalas);
 		ModelAndView modelAndView = new ModelAndView("paginas/cadastrosala");
