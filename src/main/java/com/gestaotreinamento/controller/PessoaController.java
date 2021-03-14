@@ -82,23 +82,20 @@ public class PessoaController {
 	}
 
 	/**
-	 * SERÁ MODIFICADO - SERÁ MODIFICADO - SERÁ MODIFICADO
+	 * A partir do mapeamento post da url "/cadastrarpessoa" é carregada na variável
+	 * totalPessoas o número total de pessoas já cadastradas. Este número é
+	 * incrementado e atribuído como id da nova pessoa. O dado é inserido e mantido
+	 * no banco de dados. Apresenta-se na tela que houve cadastro com sucesso e o
+	 * ModelAndView retorna para a possibilidade de cadastrar mais pessoas.
 	 * 
-	 * @param pessoa
+	 * @param pessoa é um objeto importado do model Pessoa. @see Pessoa.java
+	 * 
+	 * @return modelAndView da tela de cadastro de pessoas.
 	 */
 	@PostMapping(value = "/cadastrarpessoa")
 	public ModelAndView cadastroPessoa(Pessoa pessoa) {
 
 		int totalPessoas = pessoaRepository.findTotalPessoas();
-
-		/*
-		 * Aqui vai ser preciso eu fazer uma busca no BD pelo menor valor de lotação que
-		 * tiver na sala pra atribuir no lugar desse 20
-		 */
-		if (totalPessoas > 20) {
-			ModelAndView modelAndView = new ModelAndView("paginas/cadastropessoa");
-			modelAndView.addObject("msg", "Pessoa NÃO cadastrada!!" + " Limite de 20 pessoas por sala!");
-		}
 
 		totalPessoas++;
 		pessoa.setId(totalPessoas);
@@ -181,7 +178,7 @@ public class PessoaController {
 			modelAndView.addObject("pessoas", pessoaRepository.findAllOrderById());
 			modelAndView.addObject("msg", "DISTRIBUIÇÃO FEITA COM SUCESSO!");
 		}
-		
+
 		return modelAndView;
 	}
 
@@ -194,18 +191,16 @@ public class PessoaController {
 	 * @return modelAndView de pessoas pelo filtro do primeiro nome.
 	 */
 	@PostMapping("**/pesquisarpessoa")
-	public ModelAndView campoFiltro(@RequestParam("campoFiltro") String campoFiltro, @RequestParam("filtro") Integer filtro) {
-				
-		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");		
+	public ModelAndView campoFiltro(@RequestParam("campoFiltro") String campoFiltro,
+			@RequestParam("filtro") Integer filtro) {
 
-		if(filtro == 1)
-		{
+		ModelAndView modelAndView = new ModelAndView("paginas/listacadastrados");
+
+		if (filtro == 1) {
 			modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(campoFiltro));
-		}else if( filtro == 2 ) 
-		{
+		} else if (filtro == 2) {
 			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata1(Integer.parseInt(campoFiltro)));
-		} else if (filtro == 3) 
-		{
+		} else if (filtro == 3) {
 			modelAndView.addObject("pessoas", pessoaRepository.findEspacoCafe(Integer.parseInt(campoFiltro)));
 		}
 
