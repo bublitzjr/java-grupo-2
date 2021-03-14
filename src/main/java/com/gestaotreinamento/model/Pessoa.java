@@ -58,7 +58,13 @@ public class Pessoa implements Serializable {
 	private String nomePessoa;
 
 	@Column(nullable = false, length = 25)
-	private String sobrenomePessoa;
+	private String sobrenomePessoa;	
+	
+	private String nomeCafe;
+	
+	private String nomeSala1;
+	
+	private String nomeSala2;
 
 	private int localCafe;
 
@@ -147,5 +153,29 @@ public class Pessoa implements Serializable {
 		return "Pessoa [id=" + id + ", nomePessoa=" + nomePessoa + ", sobrenomePessoa=" + sobrenomePessoa
 				+ ", localCafe=" + localCafe + ", salaEtapa1=" + salaEtapa1 + ", salaEtapa2=" + salaEtapa2
 				+ ", espacocafe=" + espacocafe + ", sala=" + sala + "]";
+	}
+
+	public String getNomeCafe() {
+		return nomeCafe;
+	}
+
+	public void setNomeCafe(String nomeCafe) {
+		this.nomeCafe = nomeCafe;
+	}
+
+	public String getNomeSala1() {
+		return nomeSala1;
+	}
+
+	public void setNomeSala1(String nomeSala1) {
+		this.nomeSala1 = nomeSala1;
+	}
+
+	public String getNomeSala2() {
+		return nomeSala2;
+	}
+
+	public void setNomeSala2(String nomeSala2) {
+		this.nomeSala2 = nomeSala2;
 	}	
 }

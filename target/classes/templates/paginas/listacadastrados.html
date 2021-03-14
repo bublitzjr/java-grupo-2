@@ -66,13 +66,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <table>
 	<thead>
-		<tr bgcolor="#26A69A">
+		<tr bgcolor="#26A69A" >
 			<th>Id</th>
 			<th>Nome</th>
 			<th>Sobrenome</th>
 			<th>Espaço Café</th>
-			<th>Sala 1ª Etapa</th>
-			<th>Sala 2ª Etapa</th>
+			<th>1ª Etapa Sala Nº</th>
+			<th>Sala 1</th>
+			<th>2ª Etapa Sala Nº</th>
+			<th>Sala 2</th>
 		</tr>
 	</thead>
 
@@ -81,9 +83,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			<td th:text="${pessoa.id}"></td>
 			<td th:text="${pessoa.nomePessoa}"></td>
 			<td th:text="${pessoa.sobrenomePessoa}"></td>
-			<td th:text="${pessoa.localCafe}"></td>
+			<td th:text="${pessoa.nomeCafe}"></td>
 			<td th:text="${pessoa.salaEtapa1}"></td>
+			<td th:text="${pessoa.nomeSala1}"></td>
 			<td th:text="${pessoa.salaEtapa2}"></td>
+			<td th:text="${pessoa.nomeSala2}"></td>
 		</tr>
 	</tbody>
 </table>
