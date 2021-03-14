@@ -244,36 +244,53 @@ public class PessoaController {
 		int media = totalPessoas.size() / 2;
 
 		// Distribuindo as pessoas pelos locais de café
-		for (int i = 0; i < totalPessoas.size(); i++) {
+				for (int i = 0; i < totalPessoas.size(); i++) 
+				{
+					if (totalPessoas.get(i).getId() % 2 != 0) { // SE idUsuario == IMPAR, ESPAÇO IMPAR
+						totalPessoas.get(i).setNomeCafe(totalEspacoCafe.get(0).getNomeDoLocal());
+						totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(0));						
+						totalPessoas.get(i).setLocalCafe(1);
+						
+					} else { // SE idUsuario == PAR, ESPAÇO PAR
+						totalPessoas.get(i).setNomeCafe(totalEspacoCafe.get(1).getNomeDoLocal());
+						totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(1));
+						totalPessoas.get(i).setLocalCafe(2);				
+					}
+				}
 
-			if (totalPessoas.get(i).getId() % 2 != 0) { // SE idUsuario == IMPAR, ESPAÇO IMPAR
-				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(0));
-				totalPessoas.get(i).setLocalCafe(1);
-			} else { // SE idUsuario == PAR, ESPAÇO PAR
-				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(1));
-				totalPessoas.get(i).setLocalCafe(2);
-			}
-		}
 
 		// Distribuindo as pessoas pela sala na 1ª etapa
 		int idSala = 1;
+		int j = 0;
 
-		for (int i = 0; i < totalPessoas.size(); i++) {
+		for (int i = 0; i < totalPessoas.size(); i++) {	
+			
+			//totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
+			
 			if (idSala < totalSalas.size()) { // SE o idSala < do totalDeSalas
 				totalPessoas.get(i).setSalaEtapa1(idSala);
 				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
 				idSala++; // Ele adiciona ao objeto e soma + 1 ao idSala
+				j++;
 			} else { // SE idSala == totalDeSalas, é o limite de salas para ele não ficar sem sala
 				totalPessoas.get(i).setSalaEtapa1(idSala);
 				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
 				idSala = 1;
+				j = 0;
 			}
+			
+			//totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
 		}
 
 		// Distribuindo para as salas na segunda etapa
 		idSala = 1;
+		int h = 0;
 
 		for (int i = 0; i < totalPessoas.size(); i++) {
+			
+			//totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 
 			// Se o idSala for menor que a qtd total de salas & idUsuario <= média total de
 			// usuários
@@ -282,23 +299,29 @@ public class PessoaController {
 				// Ele fica na mesma sala da primeira etapa
 				totalPessoas.get(i).setSalaEtapa2(totalPessoas.get(i).getSalaEtapa1());
 				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 				idSala++;
+				h++;
 
 			}
 
 			// SE idSala for menor que a qtd total de salas & idUsuario > média total de
 			// usuários
 			else if (idSala < totalSalas.size() && totalPessoas.get(i).getId() > media) {
+				h++;
 				totalPessoas.get(i).setSalaEtapa2(totalPessoas.get(i).getSalaEtapa1() + 1);
 				totalPessoas.get(i).setSala(totalSalas.get(idSala));
+				totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 				idSala++;
 			}
 
 			// SE idSala for igual à qtd total de salas & idUsuario > média total de
 			// usuários
 			else if (idSala == totalSalas.size() && totalPessoas.get(i).getId() > media) {
+				h=0;
 				totalPessoas.get(i).setSalaEtapa2(1);
 				totalPessoas.get(i).setSala(totalSalas.get(0));
+				totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 				idSala = 1;
 
 			}
@@ -307,7 +330,9 @@ public class PessoaController {
 					// usuários
 				totalPessoas.get(i).setSalaEtapa2(totalPessoas.get(i).getSalaEtapa1());
 				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
+				totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 				idSala = 1;
+				h=0;
 			}
 		}
 
