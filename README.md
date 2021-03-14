@@ -16,7 +16,7 @@ Esta interface foi desenvolvida para uma empresa realizar um controle de partici
 
 A seguir é apresentada uma imagem da estrutura de solução criada para sustentar as funcionalidades descritas acima:
 
-![Estrutura](https://ibb.co/S7k40g8)
+![Estrutura](https://i.ibb.co/qFH398f/java-grupo-2.png)
 
 As principais camadas apresentadas na imagem possuem as seguintes funções:
 
