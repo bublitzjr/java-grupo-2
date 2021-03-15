@@ -89,7 +89,7 @@ public class EspacoCafeController {
 	 * no espacoCafeRepository por .findAll e retorna o modelAndView.
 	 */
 	@PostMapping(value = "/cadastrarEspacoCafe")
-	public ModelAndView cadastroSala(EspacoCafe espacoCafe) {
+	public ModelAndView cadastroEspacoCafe(EspacoCafe espacoCafe) {
 
 		int totalLocaisCafe = espacoCafeRepository.findTotalEspacosCafe();
 

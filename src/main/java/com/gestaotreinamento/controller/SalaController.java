@@ -74,7 +74,7 @@ public class SalaController {
 	@PostMapping(value = "/cadastrarSala")
 	public ModelAndView cadastroSala(Sala sala) {
 
-		int totalSalas = salaRepository.findTotalSalas();
+		int totalSalas = salaRepository.findTotalSalas(); // QUEBROU AQUI
 		totalSalas++;
 		sala.setId(totalSalas);
 

@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = { "com.*" })
 @EnableJpaRepositories(basePackages = { "com.gestaotreinamento.repository" })
 @EnableTransactionManagement
-
 public class GestaotreinamentoApplication {
 
 	public static void main(String[] args) {

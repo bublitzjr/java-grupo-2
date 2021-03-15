@@ -139,7 +139,7 @@ public class PessoaController {
 	 * Descartadas as duas conições acima, é feita a distribuição de sala com return
 	 * para a View. @see função distribuirTodasPessoas() nas linhas abaixo.
 	 * 
-	 * @return modelAndView de pessoas ordenadas por id.
+	 * @return modelAndView para a página listacadastrados com pessoas ordenadas por id.
 	 */
 	@GetMapping(value = "/distribuir")
 	public ModelAndView distribuirPessoas() {
@@ -150,7 +150,8 @@ public class PessoaController {
 		List<Integer> salasCadastradas = salaRepository.findAllId();
 		int menorSala = salaRepository.findMenorLotacao();
 
-		// ?? salasCadastradas.size() poderia ser modificado por totalPessoas ??
+		// Cálculo feito de quantidade total de pessoas por salas cadastradas para
+		// descobrirmos quantas pessoas ficarão por salas
 		int mediaPessoas = pessoasCadastradas.size() / salasCadastradas.size();
 
 		// CONDIÇÃO 1
@@ -230,14 +231,15 @@ public class PessoaController {
 	}
 
 	/**
-	 * Função com a lógica de distribuição de pessoas de acordo com as regras de
+	 * Método com a lógica de distribuição de pessoas de acordo com as regras de
 	 * négócios apresentadas pelo cliente.
 	 * 
-	 * @return ??????????????????????????????
+	 * @return uma lista de pessoas distribuídas nas salas e locais de café em etapas
+	 * diferentes
 	 */
 	private List<Pessoa> distribuirTodasPessoas() {
 
-		List<Pessoa> totalPessoas = (List<Pessoa>) pessoaRepository.findAll();
+		List<Pessoa> totalPessoas = (List<Pessoa>) pessoaRepository.findAllOrderById();
 		List<Sala> totalSalas = (List<Sala>) salaRepository.findAll();
 		List<EspacoCafe> totalEspacoCafe = (List<EspacoCafe>) espacoCafeRepository.findAll();
 

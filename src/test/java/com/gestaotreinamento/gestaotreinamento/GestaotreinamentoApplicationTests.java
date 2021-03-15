@@ -2,123 +2,94 @@ package com.gestaotreinamento.gestaotreinamento;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.concurrent.TimeUnit;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.gestaotreinamento.controller.EspacoCafeController;
+import com.gestaotreinamento.controller.PessoaController;
+import com.gestaotreinamento.controller.SalaController;
+import com.gestaotreinamento.model.EspacoCafe;
+import com.gestaotreinamento.model.Pessoa;
+import com.gestaotreinamento.model.Sala;
+
+@SpringBootTest
 class GestaotreinamentoApplicationTests {
 
-	private WebDriver navegador;
+	@Autowired
+	private SalaController salaController;
 
-	@BeforeEach
-	public void setUp() {
+	@Autowired
+	private EspacoCafeController espacoCafeController;
 
-		// Abrindo o navegador
-		System.setProperty("webdriver.chrome.driver", 
-				"C:\\workspace-spring-tool-suite-4-4.9.0.RELEASE\\java-grupo-2\\src\\test\\chromedriver.exe");
-		navegador = new ChromeDriver();
-
-		// Aumentando o tempo para poder fazer a leitura
-		navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-		// Maximizar a tela
-		navegador.manage().window().maximize();
-
-		// Navegando para o localhost (lembrar de subir o projeto antes de executar o teste)
-		navegador.get("http://localhost:8080/");
-		
-		// Clicar no link que possui o texto 'CLIQUE AQUI'
-		navegador.findElement(By.linkText("CLIQUE AQUI")).click();
-	}
+	@Autowired
+	private PessoaController pessoaController;
 
 	@Test
 	public void testeCadastrarSala() {
 
-		// Digitar no campo com name "nomeSala" os nomes "Primeira Sala" e "Segunda Sala"
-		WebElement nomeSalas = navegador.findElement(By.name("nomeSala"));
-		nomeSalas.sendKeys("SalaTeste");
-		
-		// Clicar no botão com name "lotacao"
-		WebElement numeroLotacao = navegador.findElement(By.name("lotacao"));
-		
-		// Digitar o número da lotação "22" por exemplo
-		numeroLotacao.sendKeys("22");
+		ModelAndView modelAndView = new ModelAndView();
 
-		// Clicar no botão com id "btnCadastrar"
-		//navegador.findElement(By.id("btnCadastrar")).click();
+		Sala sala = new Sala();
+		sala.setNomeSala("Sala Teste");
+		sala.setLotacao(23);
 
-		// Validar a mensagem "Sala cadastrada com sucesso!"
-		//WebElement validarCadastroSala = navegador.findElement(By.id("salaCadastrada"));
-		//String textoValidacao = validarCadastroSala.getText();
+		modelAndView = this.salaController.cadastroSala(sala);
+		boolean msgValidacaoSala = modelAndView.getModel().containsValue("Sala cadastrada com sucesso!");
 
-		// Validação
-		//assertEquals("SALA CADASTRADA COM SUCESSO!", textoValidacao);
-
+		assertEquals(true, msgValidacaoSala);
 	}
 
 	@Test
-	public void testCadastrarPessoas() {
-		
-		// Clicar no link com o id lnkCadastrarPessoa
-		navegador.findElement(By.id("lnkCadastrarPessoa")).click();
-		
-		// Digitar o nome da pessoa no campo onde tem o name "nomePessoa"
-		WebElement nomePessoa = navegador.findElement(By.name("nomePessoa"));
-		nomePessoa.sendKeys("Nome Teste");
-		
-		// Digitar o sobrenome da pessoa no campo onde tem o name "sobrenomePessoa"
-		WebElement sobrenomePessoa = navegador.findElement(By.name("sobrenomePessoa"));
-		sobrenomePessoa.sendKeys("Sobrenome Teste");
-		
-		// Clicar no button com id "btnCadastrar"
-		navegador.findElement(By.id("btnCadastrar")).click();
-		
-		// Validar a mensagem "Pessoa cadastrada com sucesso!"
-		WebElement validarCadastroPessoa = navegador.findElement(By.id("pessoaCadastrada"));
-		String textoValidacao = validarCadastroPessoa.getText();
-		assertEquals("Pessoa cadastrada com sucesso!", textoValidacao);
+	public void testeCadastrarEspacoCafe() {
 
+		ModelAndView modelAndView = new ModelAndView();
+
+		EspacoCafe espacoCafe = new EspacoCafe();
+		espacoCafe.setNomeDoLocal("Cantina Teste");
+
+		modelAndView = this.espacoCafeController.cadastroEspacoCafe(espacoCafe);
+		boolean msgValidacaoCafe = modelAndView.getModel().containsValue("Espaço de Café foi cadastrado com sucesso!");
+
+		assertEquals(true, msgValidacaoCafe);
 	}
 
 	@Test
-	public void testConsultarCadaPessoa() {
-		
-		// Clicar no link com o id lnkCadastrarPessoa
-		navegador.findElement(By.id("lnkCadastrarPessoa")).click();
-		
-		// Clicar no link com o id lnkConsultas
-		navegador.findElement(By.id("lnkConsultas")).click();
-		
-		// Digitar o nome da pessoa no campo onde tem o name "nomePessoa"
-		WebElement pesqNomePessoa = navegador.findElement(By.name("primeironome"));
-		pesqNomePessoa.sendKeys("Nome Teste");
-		
-		// Clicar no button com id "btnBuscar"
-		navegador.findElement(By.id("btnBuscar")).click();
-		
+	public void testeCadastrarPessoa() {
+
+		ModelAndView modelAndView = new ModelAndView();
+
+		Pessoa pessoa = new Pessoa();
+		pessoa.setNomePessoa("Steve");
+		pessoa.setSobrenomePessoa("Jobs");
+
+		modelAndView = this.pessoaController.cadastroPessoa(pessoa);
+
+		boolean msgValidacaoPessoa = modelAndView.getModel().containsValue("Pessoa cadastrada com sucesso!");
+
+		assertEquals(true, msgValidacaoPessoa);
 	}
 
 	@Test
-	public void testConsultarCadaSala() {
-				
-		// Digitar o nome da sala no campo onde tem o name "nomePessoa"
-		WebElement pesqNomeSala = navegador.findElement(By.name("pesqNomeSalas"));
-		pesqNomeSala.sendKeys("SalaTeste");
-				
-		// Clicar no button com id "btnBuscar"
-		navegador.findElement(By.id("btnBuscar")).click();
-	}
-	
-	//@AfterEach
-	public void tearDown() {
-		
-		// Fechar o navegador
-		navegador.quit();
+	public void testeConsultarPessoa() {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView = this.pessoaController.campoFiltro("Ste", 1);
+
+		boolean pessoaEncontrada = modelAndView.getModel().toString().contains("Ste") ? true : false;
+
+		assertEquals(true, pessoaEncontrada);
 	}
 
+	@Test
+	public void testeConsultarSala() {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView = this.salaController.pesquisarSalaPorNome("Test");
+
+		boolean salaEncontrada = modelAndView.getModel().toString().contains("Test") ? true : false;
+
+		assertEquals(true, salaEncontrada);
+	}
 }

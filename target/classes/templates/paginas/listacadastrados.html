@@ -42,7 +42,7 @@ xmlns:th="http://www.thymeleaf.org">
 		
 		<div class="row">
 		<div class="input-field col s3">		
-		<select name="filtro" id="filtro" required="">
+		<select name="filtro" id="filtro" required>
 			<option value="">Selecione...</option>
 			<option value="1">Pessoa</option>
 			<option value="2">Sala etapa 1</option>
@@ -71,9 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			<th>Nome</th>
 			<th>Sobrenome</th>
 			<th>Espaço Café</th>
-			<th>1ª Etapa Sala Nº</th>
 			<th>Sala 1</th>
-			<th>2ª Etapa Sala Nº</th>
 			<th>Sala 2</th>
 		</tr>
 	</thead>
@@ -84,9 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			<td th:text="${pessoa.nomePessoa}"></td>
 			<td th:text="${pessoa.sobrenomePessoa}"></td>
 			<td th:text="${pessoa.nomeCafe}"></td>
-			<td th:text="${pessoa.salaEtapa1}"></td>
 			<td th:text="${pessoa.nomeSala1}"></td>
-			<td th:text="${pessoa.salaEtapa2}"></td>
 			<td th:text="${pessoa.nomeSala2}"></td>
 		</tr>
 	</tbody>

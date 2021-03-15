@@ -58,12 +58,12 @@ public class Pessoa implements Serializable {
 	private String nomePessoa;
 
 	@Column(nullable = false, length = 25)
-	private String sobrenomePessoa;	
-	
+	private String sobrenomePessoa;
+
 	private String nomeCafe;
-	
+
 	private String nomeSala1;
-	
+
 	private String nomeSala2;
 
 	private int localCafe;
@@ -71,7 +71,7 @@ public class Pessoa implements Serializable {
 	private int salaEtapa1;
 
 	private int salaEtapa2;
-	
+
 	@SuppressWarnings("deprecation")
 	@org.hibernate.annotations.ForeignKey(name = "espacoCafe_id")
 	@ManyToOne
@@ -80,9 +80,9 @@ public class Pessoa implements Serializable {
 	@SuppressWarnings("deprecation")
 	@org.hibernate.annotations.ForeignKey(name = "sala_id")
 	@ManyToOne
-	private Sala sala;	
+	private Sala sala;
 
-	//GETTERS & SETTERS
+	// GETTERS & SETTERS
 	public int getId() {
 		return id;
 	}
@@ -107,6 +107,30 @@ public class Pessoa implements Serializable {
 		this.sobrenomePessoa = sobrenomePessoa;
 	}
 
+	public String getNomeCafe() {
+		return nomeCafe;
+	}
+
+	public void setNomeCafe(String nomeCafe) {
+		this.nomeCafe = nomeCafe;
+	}
+
+	public String getNomeSala1() {
+		return nomeSala1;
+	}
+
+	public void setNomeSala1(String nomeSala1) {
+		this.nomeSala1 = nomeSala1;
+	}
+
+	public String getNomeSala2() {
+		return nomeSala2;
+	}
+
+	public void setNomeSala2(String nomeSala2) {
+		this.nomeSala2 = nomeSala2;
+	}
+
 	public int getLocalCafe() {
 		return localCafe;
 	}
@@ -114,7 +138,7 @@ public class Pessoa implements Serializable {
 	public void setLocalCafe(int localCafe) {
 		this.localCafe = localCafe;
 	}
-	
+
 	public int getSalaEtapa1() {
 		return salaEtapa1;
 	}
@@ -146,36 +170,13 @@ public class Pessoa implements Serializable {
 	public void setSala(Sala sala) {
 		this.sala = sala;
 	}
-	
-	//RETURN 
+
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nomePessoa=" + nomePessoa + ", sobrenomePessoa=" + sobrenomePessoa
-				+ ", localCafe=" + localCafe + ", salaEtapa1=" + salaEtapa1 + ", salaEtapa2=" + salaEtapa2
-				+ ", espacocafe=" + espacocafe + ", sala=" + sala + "]";
+				+ ", nomeCafe=" + nomeCafe + ", nomeSala1=" + nomeSala1 + ", nomeSala2=" + nomeSala2 + ", localCafe="
+				+ localCafe + ", salaEtapa1=" + salaEtapa1 + ", salaEtapa2=" + salaEtapa2 + ", espacocafe=" + espacocafe
+				+ ", sala=" + sala + "]";
 	}
 
-	public String getNomeCafe() {
-		return nomeCafe;
-	}
-
-	public void setNomeCafe(String nomeCafe) {
-		this.nomeCafe = nomeCafe;
-	}
-
-	public String getNomeSala1() {
-		return nomeSala1;
-	}
-
-	public void setNomeSala1(String nomeSala1) {
-		this.nomeSala1 = nomeSala1;
-	}
-
-	public String getNomeSala2() {
-		return nomeSala2;
-	}
-
-	public void setNomeSala2(String nomeSala2) {
-		this.nomeSala2 = nomeSala2;
-	}	
 }
