@@ -21,11 +21,12 @@ A seguir é apresentada uma imagem da estrutura de solução criada para sustent
 As principais camadas apresentadas na imagem possuem as seguintes funções:
 
 ```
--> Controllers: responsáveis por obter as informações de entrada, 
-invocar as funcionalidades e retornar os resultados
+-> Controllers: responsáveis por obter da tela (View) os dados de entrada, invocar
+   funcionalidades e dados do banco de dados (Model e Repository) e retornar os 
+   resultados para a tela do usuário
 -> Application: classe detentora do método main
--> Model: classes detentoras dos atributos empregues no código
--> Repositories: responsáveis pela construção HTML da solução
+-> Model: classes detentoras dos atributos e métodos atribuídos ao código
+-> Repositories: responsáveis pelas transações com o banco de dados
 ```
 
 ## Instalação
