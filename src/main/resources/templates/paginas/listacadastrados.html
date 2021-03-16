@@ -17,8 +17,7 @@ xmlns:th="http://www.thymeleaf.org">
 
 3. Para voltar à página de cadastro de pessoal, <a href="/cadastropessoa">CLIQUE AQUI</a><p/>
 
-	
-<a href="/distribuir" class="waves-effect waves-light btn">DISTRIBUIR PESSOAL POR SALAS</a>
+
 	
 	<div th:each="m : ${msg}">
 		<span th:text="${m}" style="color: #556B2F; font-weight: bold;"></span>
@@ -30,30 +29,36 @@ xmlns:th="http://www.thymeleaf.org">
   
 <div class="row">
 	<form action="/pesquisarpessoa" method="post" class="col s12">
-		
-		<div class="row">
-			<div class="input-field col s4">				
+		<div class="row">					
+			<div class="input-field col s6">			
+				<select name="filtro" id="filtro" required>
+					<option value="">Selecione...</option>
+					<option value="1">Pessoa</option>
+					<option value="2">Sala etapa 1</option>
+					<option value="3">Sala etapa 2</option>
+					<option value="4">Espaço café</option>
+				</select>
+				<label>
+				Selecione um filtro específico
+				</label>
+			</div>		
+	
+			<div class="input-field col s6">				
 				<input name="campoFiltro" autofocus placeholder="Digite filtro..." />
 			</div>
+		</div>	
+
+		<div class="row">		
 			<div class="input-field col s6">
-				<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>				
-			</div>			
+					<button id="btnBuscar" class="waves-effect waves-light btn">Buscar</button>				
+			</div>
+			<div class="col s6">				
+				<a href="/distribuir" class="waves-effect waves-light btn">DISTRIBUIR PESSOAL POR SALAS</a>
+			</div>
 		</div>
-		
-		<div class="row">
-		<div class="input-field col s3">		
-		<select name="filtro" id="filtro" required>
-			<option value="">Selecione...</option>
-			<option value="1">Pessoa</option>
-			<option value="2">Sala etapa 1</option>
-			<option value="3">Sala etapa 2</option>
-			<option value="4">Espaço café</option>
-		</select>
-	</div>
+	</form>	
 </div>
-		
-	</form>
-</div>
+
 
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
