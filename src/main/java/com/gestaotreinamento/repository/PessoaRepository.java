@@ -39,14 +39,14 @@ public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 	@Query("select p from Pessoa p where p.nomePessoa like %?1%")
 	List<Pessoa> findPessoaPeloNome(String nome);
 	
-	@Query("select p from Pessoa p where p.salaEtapa1 = :campoFiltro")
-	List<Pessoa> findSalaEpata1(Integer campoFiltro);
+	@Query("select p from Pessoa p where p.nomeSala1 like %:campoFiltro%")
+	List<Pessoa> findSalaEpata1(String campoFiltro);
 	
-	@Query("select p from Pessoa p where p.salaEtapa2 = :campoFiltro")
-	List<Pessoa> findSalaEpata2(Integer campoFiltro);
+	@Query("select p from Pessoa p where p.nomeSala2 like %:campoFiltro%")
+	List<Pessoa> findSalaEpata2(String campoFiltro);
 	
-	@Query("select p from Pessoa p where p.localCafe = :campoFiltro")
-	List<Pessoa> findEspacoCafe(Integer campoFiltro);
+	@Query("select p from Pessoa p where p.localCafe like %:campoFiltro%")
+	List<Pessoa> findEspacoCafe(String campoFiltro);
 
 	@Query("select p from Pessoa p order by p.id")
 	List<Pessoa> findAllOrderById();

@@ -200,11 +200,11 @@ public class PessoaController {
 		if (filtro == 1) {
 			modelAndView.addObject("pessoas", pessoaRepository.findPessoaPeloNome(campoFiltro));
 		} else if (filtro == 2) {
-			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata1(Integer.parseInt(campoFiltro)));
+			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata1(campoFiltro));
 		} else if (filtro == 3) {
-			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata2(Integer.parseInt(campoFiltro)));
+			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata2(campoFiltro));
 		}else if(filtro == 4) {
-			modelAndView.addObject("pessoas", pessoaRepository.findEspacoCafe(Integer.parseInt(campoFiltro)));
+			modelAndView.addObject("pessoas", pessoaRepository.findEspacoCafe(campoFiltro));
 		}
 		return modelAndView;
 	}
