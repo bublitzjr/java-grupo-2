@@ -139,7 +139,8 @@ public class PessoaController {
 	 * Descartadas as duas conições acima, é feita a distribuição de sala com return
 	 * para a View. @see função distribuirTodasPessoas() nas linhas abaixo.
 	 * 
-	 * @return modelAndView para a página listacadastrados com pessoas ordenadas por id.
+	 * @return modelAndView para a página listacadastrados com pessoas ordenadas por
+	 *         id.
 	 */
 	@GetMapping(value = "/distribuir")
 	public ModelAndView distribuirPessoas() {
@@ -152,12 +153,13 @@ public class PessoaController {
 
 		// Cálculo feito de quantidade total de pessoas por salas cadastradas para
 		// descobrirmos quantas pessoas ficarão por salas
-		int mediaPessoas = pessoasCadastradas.size() / salasCadastradas.size();
+		float mediaPessoas = (float) (pessoasCadastradas.size() / salasCadastradas.size());
 
 		// CONDIÇÃO 1
-		if (totalPessoas < salasCadastradas.size()) {
+		if (mediaPessoas < 2) {
 			modelAndView = new ModelAndView("paginas/cadastropessoa");
-			modelAndView.addObject("msg", "Você precisa cadastrar ao menos 2 pessoas por sala no sistema!");
+			modelAndView.addObject("msg",
+					"Número menor que duas pessoas por sala no sistema. Cadastre mais pessoas!");
 		}
 
 		// CONDIÇÃO 2
@@ -203,7 +205,7 @@ public class PessoaController {
 			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata1(campoFiltro));
 		} else if (filtro == 3) {
 			modelAndView.addObject("pessoas", pessoaRepository.findSalaEpata2(campoFiltro));
-		}else if(filtro == 4) {
+		} else if (filtro == 4) {
 			modelAndView.addObject("pessoas", pessoaRepository.findEspacoCafe(campoFiltro));
 		}
 		return modelAndView;
@@ -234,8 +236,8 @@ public class PessoaController {
 	 * Método com a lógica de distribuição de pessoas de acordo com as regras de
 	 * négócios apresentadas pelo cliente.
 	 * 
-	 * @return uma lista de pessoas distribuídas nas salas e locais de café em etapas
-	 * diferentes
+	 * @return uma lista de pessoas distribuídas nas salas e locais de café em
+	 *         etapas diferentes
 	 */
 	private List<Pessoa> distribuirTodasPessoas() {
 
@@ -246,29 +248,27 @@ public class PessoaController {
 		int media = totalPessoas.size() / 2;
 
 		// Distribuindo as pessoas pelos locais de café
-				for (int i = 0; i < totalPessoas.size(); i++) 
-				{
-					if (totalPessoas.get(i).getId() % 2 != 0) { // SE idUsuario == IMPAR, ESPAÇO IMPAR
-						totalPessoas.get(i).setNomeCafe(totalEspacoCafe.get(0).getNomeDoLocal());
-						totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(0));						
-						totalPessoas.get(i).setLocalCafe(1);
-						
-					} else { // SE idUsuario == PAR, ESPAÇO PAR
-						totalPessoas.get(i).setNomeCafe(totalEspacoCafe.get(1).getNomeDoLocal());
-						totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(1));
-						totalPessoas.get(i).setLocalCafe(2);				
-					}
-				}
+		for (int i = 0; i < totalPessoas.size(); i++) {
+			if (totalPessoas.get(i).getId() % 2 != 0) { // SE idUsuario == IMPAR, ESPAÇO IMPAR
+				totalPessoas.get(i).setNomeCafe(totalEspacoCafe.get(0).getNomeDoLocal());
+				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(0));
+				totalPessoas.get(i).setLocalCafe(1);
 
+			} else { // SE idUsuario == PAR, ESPAÇO PAR
+				totalPessoas.get(i).setNomeCafe(totalEspacoCafe.get(1).getNomeDoLocal());
+				totalPessoas.get(i).setEspacocafe(totalEspacoCafe.get(1));
+				totalPessoas.get(i).setLocalCafe(2);
+			}
+		}
 
 		// Distribuindo as pessoas pela sala na 1ª etapa
 		int idSala = 1;
 		int j = 0;
 
-		for (int i = 0; i < totalPessoas.size(); i++) {	
-			
-			//totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
-			
+		for (int i = 0; i < totalPessoas.size(); i++) {
+
+			// totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
+
 			if (idSala < totalSalas.size()) { // SE o idSala < do totalDeSalas
 				totalPessoas.get(i).setSalaEtapa1(idSala);
 				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
@@ -282,8 +282,8 @@ public class PessoaController {
 				idSala = 1;
 				j = 0;
 			}
-			
-			//totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
+
+			// totalPessoas.get(i).setNomeSala1(totalSalas.get(j).getNomeSala());
 		}
 
 		// Distribuindo para as salas na segunda etapa
@@ -291,8 +291,8 @@ public class PessoaController {
 		int h = 0;
 
 		for (int i = 0; i < totalPessoas.size(); i++) {
-			
-			//totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
+
+			// totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 
 			// Se o idSala for menor que a qtd total de salas & idUsuario <= média total de
 			// usuários
@@ -320,7 +320,7 @@ public class PessoaController {
 			// SE idSala for igual à qtd total de salas & idUsuario > média total de
 			// usuários
 			else if (idSala == totalSalas.size() && totalPessoas.get(i).getId() > media) {
-				h=0;
+				h = 0;
 				totalPessoas.get(i).setSalaEtapa2(1);
 				totalPessoas.get(i).setSala(totalSalas.get(0));
 				totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
@@ -334,7 +334,7 @@ public class PessoaController {
 				totalPessoas.get(i).setSala(totalSalas.get(idSala - 1));
 				totalPessoas.get(i).setNomeSala2(totalSalas.get(h).getNomeSala());
 				idSala = 1;
-				h=0;
+				h = 0;
 			}
 		}
 

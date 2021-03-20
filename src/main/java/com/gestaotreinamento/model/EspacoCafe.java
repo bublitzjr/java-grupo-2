@@ -10,9 +10,7 @@ import javax.persistence.OneToMany;
 
 /**
  * Classe EspacoCafe da camada MODEL: Cria um objeto que recebe o número de
- * identificação do espaço e como o café é nomeado. TEM? A? QUESTÃO? NO
- * ONE_TO_MANY, O QUE COMENTAR? ... e mantém no banco de dados (tabela
- * 'espaco_cafe').
+ * identificação do espaço e como o café é nomeado.
  * 
  * @param idEspaco variável int de identificação do Espaço de Café.
  * @param nomeDoLocal String com o nome do Espaço de Café.
@@ -25,7 +23,7 @@ import javax.persistence.OneToMany;
  * @Entity Especifica que a classe é uma entidade.
  * @Id Especifica uma chave primária.
  * @Column Especifica condições para a persistência dos dados.
- * @OneToMany ?????????????????????????.
+ * @OneToMany Estabelece uma relação de um para muitos no banco de dados.
  * 
  * @author Adriano Warmling
  * @author Jefferson Bublitz
